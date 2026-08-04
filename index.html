@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday, Soutrika ♥</title>
+  <meta name="description" content="A love letter in pixels — Happy Birthday Soutrika. 23 Sep 2023 to forever." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════ GREETING OVERLAY ═══════ -->
+  <div id="greeting-overlay">
+    <div class="greeting-heart">🤍</div>
+    <div class="greeting-text">
+      I made something for you…<br/>just tap anywhere
+    </div>
+    <div class="greeting-tap">tap to begin</div>
+  </div>
+
+  <!-- ═══════ AMBIENT PETALS ═══════ -->
+  <div class="petals-container" id="petals"></div>
+
+  <!-- ═══════ SECTION 1 — HERO ═══════ -->
+  <section id="hero">
+    <div class="hero-particles" id="hero-particles"></div>
+    <div class="hero-content">
+      <h1 class="hero-name">Soutrika</h1>
+      <p class="hero-subtitle">Happy Birthday, my love ♥</p>
+      <p class="hero-date">
+        <span>23 Sep 2023</span> — forever, still counting.
+      </p>
+    </div>
+    <div class="scroll-hint">
+      <span>scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ═══════ SECTION 2 — OUR STORY ═══════ -->
+  <section id="our-story">
+    <h2 class="section-title reveal">Our Story</h2>
+    <div class="section-divider reveal"></div>
+
+    <!-- Live Counter -->
+    <div class="counter-container reveal">
+      <div class="counter-box">
+        <div class="counter-number" id="c-years">0</div>
+        <div class="counter-label">Years</div>
+      </div>
+      <div class="counter-box">
+        <div class="counter-number" id="c-months">0</div>
+        <div class="counter-label">Months</div>
+      </div>
+      <div class="counter-box">
+        <div class="counter-number" id="c-days">0</div>
+        <div class="counter-label">Days</div>
+      </div>
+      <div class="counter-box">
+        <div class="counter-number" id="c-hours">0</div>
+        <div class="counter-label">Hours</div>
+      </div>
+      <div class="counter-box">
+        <div class="counter-number" id="c-minutes">0</div>
+        <div class="counter-label">Minutes</div>
+      </div>
+      <div class="counter-box">
+        <div class="counter-number" id="c-seconds">0</div>
+        <div class="counter-label">Seconds</div>
+      </div>
+    </div>
+
+    <!-- Polaroid Gallery -->
+    <div class="gallery-track-wrapper reveal">
+      <button class="gallery-arrow left" id="gallery-left" aria-label="Scroll left">‹</button>
+      <div class="gallery-track" id="gallery-track">
+
+        <!-- Photo 1 — first image (user provided) -->
+        <div class="polaroid" style="--rotate:-3deg">
+          <img src="1000229727.jpg" alt="Our earliest memory" loading="lazy" />
+          <span class="caption">Where it all began ♥</span>
+        </div>
+
+        <!-- Photo 2 -->
+        <div class="polaroid" style="--rotate:2deg">
+          <img src="1000328700.jpg" alt="Together" loading="lazy" />
+          <span class="caption">You & me, always</span>
+        </div>
+
+        <!-- Photo 3 -->
+        <div class="polaroid" style="--rotate:-1.5deg">
+          <img src="1000355294.jpg" alt="Smiling together" loading="lazy" />
+          <span class="caption">That smile, my weakness</span>
+        </div>
+
+        <!-- Quote 1 -->
+        <div class="quote-card">
+          <div class="quote-mark">"</div>
+          <p class="quote-text">Some people arrive in your life and you know from that first moment that they were meant to be there.</p>
+        </div>
+
+        <!-- Photo 4 -->
+        <div class="polaroid" style="--rotate:2.5deg">
+          <img src="1000387934.jpg" alt="A beautiful day" loading="lazy" />
+          <span class="caption">Golden hour with you</span>
+        </div>
+
+        <!-- Photo 5 — B&W night selfie -->
+        <div class="polaroid" style="--rotate:-2deg">
+          <img src="1000397424.jpg" alt="Night out" loading="lazy" />
+          <span class="caption">Late nights, best nights</span>
+        </div>
+
+        <!-- Photo 6 — Traditional outfit -->
+        <div class="polaroid" style="--rotate:1.5deg">
+          <img src="1000440326.jpg" alt="Traditional vibes" loading="lazy" />
+          <span class="caption">Festive and fabulous</span>
+        </div>
+
+        <!-- Photo 7 — Her solo (pink top, cafe) -->
+        <div class="polaroid" style="--rotate:-3.5deg">
+          <img src="1000467015.jpg" alt="Café vibes" loading="lazy" />
+          <span class="caption">Prettiest in the room</span>
+        </div>
+
+        <!-- Photo 8 — Couple selfie at café -->
+        <div class="polaroid" style="--rotate:2deg">
+          <img src="1000467197.jpg" alt="Café date" loading="lazy" />
+          <span class="caption">Our kind of date</span>
+        </div>
+
+        <!-- Quote 2 -->
+        <div class="quote-card">
+          <div class="quote-mark">"</div>
+          <p class="quote-text">Every second with you is a memory I hold closer than the last — and every day proves me right.</p>
+        </div>
+
+        <!-- Photo 9 — Flowers background -->
+        <div class="polaroid" style="--rotate:-1deg">
+          <img src="1000504424.jpg" alt="Among flowers" loading="lazy" />
+          <span class="caption">My favourite view</span>
+        </div>
+
+        <!-- Photo 10 — Jan 2026 red saree -->
+        <div class="polaroid" style="--rotate:3deg">
+          <img src="1000523213.jpg" alt="Red saree day" loading="lazy" />
+          <span class="caption">Stunning, every single time</span>
+        </div>
+
+        <!-- Photo 11 — "my day" selfie -->
+        <div class="polaroid" style="--rotate:-2.5deg">
+          <img src="1000528410.jpg" alt="My day" loading="lazy" />
+          <span class="caption">My day ❤️</span>
+        </div>
+
+        <!-- Photo 12 — Temple (solo, orange saree) -->
+        <div class="polaroid" style="--rotate:1deg">
+          <img src="1000538173.jpg" alt="Temple elegance" loading="lazy" />
+          <span class="caption">Ethereal, always</span>
+        </div>
+
+        <!-- Photo 13 — Yellow wall couple -->
+        <div class="polaroid" style="--rotate:-2deg">
+          <img src="1000538863.jpg" alt="Yellow wall" loading="lazy" />
+          <span class="caption">Colour on colour</span>
+        </div>
+
+        <!-- Photo 14 — Her solo (yellow dress, park) -->
+        <div class="polaroid" style="--rotate:2.5deg">
+          <img src="1000558333.jpg" alt="Park sunshine" loading="lazy" />
+          <span class="caption">Sunshine personified</span>
+        </div>
+
+        <!-- Photo 15 — Mall selfie -->
+        <div class="polaroid" style="--rotate:-1.5deg">
+          <img src="1000572902.jpg" alt="Mall date" loading="lazy" />
+          <span class="caption">Random dates > everything</span>
+        </div>
+
+        <!-- Photo 16 — Polaroid holding hands -->
+        <div class="polaroid" style="--rotate:2deg">
+          <img src="1000572943.jpg" alt="Holding hands" loading="lazy" />
+          <span class="caption">Never letting go</span>
+        </div>
+
+        <!-- Photo 17 — Art gallery selfie -->
+        <div class="polaroid" style="--rotate:-3deg">
+          <img src="1000594861.jpg" alt="Art gallery" loading="lazy" />
+          <span class="caption">My favourite masterpiece</span>
+        </div>
+
+        <!-- Photo 18 — B&W idol couple -->
+        <div class="polaroid" style="--rotate:1.5deg">
+          <img src="1000619867.jpg" alt="Festival time" loading="lazy" />
+          <span class="caption">Lost in each other</span>
+        </div>
+
+        <!-- Photo 19 — Couple selfie (floral shirt) -->
+        <div class="polaroid" style="--rotate:-2deg">
+          <img src="1000635839.jpg" alt="Just us" loading="lazy" />
+          <span class="caption">You + me = ∞</span>
+        </div>
+
+        <!-- Photo 20 — Campus, yellow kurta + red saree -->
+        <div class="polaroid" style="--rotate:3deg">
+          <img src="1000643212.jpg" alt="Campus day" loading="lazy" />
+          <span class="caption">Making memories on campus</span>
+        </div>
+
+        <!-- Photo 21 — Hands on grass -->
+        <div class="polaroid" style="--rotate:-1deg">
+          <img src="1000643252.jpg" alt="Hands intertwined" loading="lazy" />
+          <span class="caption">My hand, your hand, always</span>
+        </div>
+
+        <!-- Photo 22 — Temple with dome -->
+        <div class="polaroid" style="--rotate:2deg">
+          <img src="1000643267.jpg" alt="Temple visit" loading="lazy" />
+          <span class="caption">Blessed, together</span>
+        </div>
+
+        <!-- Photo 23 — "life at 7:11 PM" -->
+        <div class="polaroid" style="--rotate:-2.5deg">
+          <img src="1000655097.jpg" alt="Life at 7:11 PM" loading="lazy" />
+          <span class="caption">Life at 7:11 PM 🤍</span>
+        </div>
+
+        <!-- Photo 24 — Her solo (blue, dark door) -->
+        <div class="polaroid" style="--rotate:1deg">
+          <img src="480627f2-d90f-401a-a069-3ac2cced9822-1_all_22227.jpg" alt="Blue elegance" loading="lazy" />
+          <span class="caption">The one I can't stop staring at</span>
+        </div>
+
+      </div>
+      <button class="gallery-arrow right" id="gallery-right" aria-label="Scroll right">›</button>
+    </div>
+  </section>
+
+  <!-- ═══════ SECTION 3 — THE DATE ═══════ -->
+  <section id="the-date">
+    <div class="date-content reveal" id="date-ask">
+      <p class="date-question">Will you go on a date with me?</p>
+      <h2 class="date-when">20th August 2026</h2>
+      <div class="date-buttons">
+        <button class="btn-yes" id="btn-yes">Yes, absolutely! ♥</button>
+        <button class="btn-no" id="btn-no">No</button>
+      </div>
+      <p class="dodge-hint" id="dodge-hint"></p>
+    </div>
+
+    <!-- Dinner Ticket (hidden until "Yes") -->
+    <div class="dinner-ticket" id="dinner-ticket">
+      <div class="ticket-card">
+        <div class="ticket-header">An Evening Reservation</div>
+        <div class="ticket-title">Dinner for Two</div>
+        <div class="ticket-date">Wednesday, 20 August 2026 · 7:30 PM</div>
+        <div class="ticket-divider"></div>
+        <div class="ticket-details">
+          <strong>Guest:</strong> Soutrika + You-Know-Who<br/>
+          <strong>Dress Code:</strong> Whatever makes you smile<br/>
+          <strong>Menu:</strong> Anything your heart desires
+        </div>
+        <div class="ticket-footer">The table's already booked. ♥</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ FOOTER ═══════ -->
+  <footer class="site-footer">
+    Made with <span class="heart">♥</span> just for you, Soutrika.
+  </footer>
+
+  <!-- Confetti container (for "Yes" reveal) -->
+  <div class="confetti-container" id="confetti"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
