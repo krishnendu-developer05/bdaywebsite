@@ -7,10 +7,34 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ───── 0. Greeting Overlay ───── */
   const overlay = document.getElementById('greeting-overlay');
   overlay.addEventListener('click', () => {
+    burstGreetingHeart();
     overlay.classList.add('hidden');
     // Start petals only after overlay is dismissed
     setTimeout(createPetals, 800);
   });
+
+  // Scatter a burst of hearts from the greeting heart on tap
+  function burstGreetingHeart() {
+    const heart = document.querySelector('.greeting-heart');
+    const r = heart.getBoundingClientRect();
+    const cx = r.left + r.width / 2;
+    const cy = r.top + r.height / 2;
+    heart.classList.add('burst');
+    for (let i = 0; i < 14; i++) {
+      const p = document.createElement('span');
+      p.className = 'heart-burst';
+      p.textContent = '🤍';
+      const ang = (i / 14) * Math.PI * 2 + Math.random() * .5;
+      const dist = 60 + Math.random() * 110;
+      p.style.left = cx + 'px';
+      p.style.top = cy + 'px';
+      p.style.setProperty('--dx', Math.cos(ang) * dist + 'px');
+      p.style.setProperty('--dy', Math.sin(ang) * dist + 'px');
+      p.style.fontSize = (12 + Math.random() * 14) + 'px';
+      overlay.appendChild(p);
+      setTimeout(() => p.remove(), 800);
+    }
+  }
 
   /* ───── 1. Ambient Petals ───── */
   function createPetals() {
@@ -41,39 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     particlesContainer.appendChild(s);
   }
 
-  /* ───── 3. Live Counter (since 23 Sep 2023) ───── */
-  const startDate = new Date('2023-09-23T00:00:00');
-
-  function updateCounter() {
-    const now = new Date();
-    let years  = now.getFullYear() - startDate.getFullYear();
-    let months = now.getMonth() - startDate.getMonth();
-    let days   = now.getDate() - startDate.getDate();
-    let hours  = now.getHours();
-    let minutes = now.getMinutes();
-    let seconds = now.getSeconds();
-
-    if (days < 0) {
-      months--;
-      const prev = new Date(now.getFullYear(), now.getMonth(), 0);
-      days += prev.getDate();
-    }
-    if (months < 0) {
-      years--;
-      months += 12;
-    }
-
-    document.getElementById('c-years').textContent   = years;
-    document.getElementById('c-months').textContent  = months;
-    document.getElementById('c-days').textContent     = days;
-    document.getElementById('c-hours').textContent    = hours;
-    document.getElementById('c-minutes').textContent  = minutes;
-    document.getElementById('c-seconds').textContent  = seconds;
-  }
-  updateCounter();
-  setInterval(updateCounter, 1000);
-
-  /* ───── 4. Scroll Reveal ───── */
+  /* ───── 3. Scroll Reveal ───── */
   const reveals = document.querySelectorAll('.reveal');
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => {
@@ -137,22 +129,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function dodgeButton() {
     dodgeCount++;
-    const section = document.getElementById('the-date');
-    const rect = section.getBoundingClientRect();
     const btnW = btnNo.offsetWidth;
     const btnH = btnNo.offsetHeight;
 
-    // Calculate bounds relative to the section
-    const maxX = rect.width - btnW - 40;
-    const maxY = rect.height - btnH - 40;
+    // The .reveal transform on #date-ask makes it the containing block for
+    // `fixed`; once revealed it's identity (translateY(0)), so drop it with no
+    // visual change and position against the real viewport, clamped on-screen.
+    // Kill the transition too, else the transform animates over .8s and stays a
+    // containing block for the whole flight, flinging the button off-screen.
+    const ask = document.getElementById('date-ask');
+    ask.style.transition = 'none';
+    ask.style.transform = 'none';
+    const maxX = Math.max(10, window.innerWidth  - btnW - 20);
+    const maxY = Math.max(10, window.innerHeight - btnH - 20);
 
-    const randX = 20 + Math.random() * maxX;
-    const randY = 20 + Math.random() * maxY;
-
-    btnNo.style.position = 'absolute';
-    btnNo.style.left = randX + 'px';
-    btnNo.style.top  = randY + 'px';
-    btnNo.style.zIndex = '10';
+    btnNo.style.position = 'fixed';
+    btnNo.style.left = (20 + Math.random() * maxX) + 'px';
+    btnNo.style.top  = (20 + Math.random() * maxY) + 'px';
+    btnNo.style.zIndex = '100';
 
     // Show hint
     hintEl.textContent = hints[hintIndex % hints.length];

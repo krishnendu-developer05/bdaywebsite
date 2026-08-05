@@ -86,10 +86,30 @@ body {
   70%     { transform: scale(1); }
 }
 
+/* tap burst — main heart pops up, scattered hearts fly out */
+.greeting-heart.burst {
+  animation: none;
+  transition: transform .5s var(--ease-smooth), opacity .5s var(--ease-smooth);
+  transform: scale(2.6);
+  opacity: 0;
+}
+.heart-burst {
+  position: fixed;
+  z-index: 10000;
+  pointer-events: none;
+  line-height: 1;
+  animation: heartBurst .7s var(--ease-smooth) forwards;
+}
+@keyframes heartBurst {
+  0%   { opacity: 1; transform: translate(-50%, -50%) scale(.3); }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.5); }
+}
+
 /* ---------- Section: Hero ---------- */
 #hero {
   position: relative;
   min-height: 100vh;
+  min-height: 100dvh; /* dynamic viewport height — iOS address bar */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -139,7 +159,7 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: shimmer 4s ease infinite;
-  line-height: 1.1;
+  line-height: 1.4;
   margin-bottom: .5rem;
   filter: drop-shadow(0 0 30px rgba(201,168,76,.3));
 }
@@ -160,20 +180,6 @@ body {
   animation: fadeInUp 1.2s var(--ease-smooth) .5s both;
 }
 
-.hero-date {
-  font-family: var(--font-sans);
-  font-weight: 200;
-  font-size: clamp(.75rem, 1.4vw, 1rem);
-  letter-spacing: .25em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  opacity: 0;
-  animation: fadeInUp 1.2s var(--ease-smooth) 1s both;
-}
-.hero-date span {
-  color: var(--gold);
-}
-
 /* scroll hint */
 .scroll-hint {
   position: absolute;
@@ -186,12 +192,6 @@ body {
   gap: .5rem;
   opacity: 0;
   animation: fadeInUp 1s var(--ease-smooth) 2s both;
-}
-.scroll-hint span {
-  font-size: .7rem;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--text-muted);
 }
 .scroll-hint .scroll-line {
   width: 1px;
@@ -254,39 +254,6 @@ body {
   background: var(--gold);
   margin: 0 auto 3rem;
   opacity: .5;
-}
-
-/* Live Counter */
-.counter-container {
-  display: flex;
-  justify-content: center;
-  gap: clamp(.8rem, 2vw, 2rem);
-  flex-wrap: wrap;
-  margin-bottom: 4rem;
-}
-.counter-box {
-  text-align: center;
-  min-width: 80px;
-  padding: 1.2rem 1rem;
-  background: rgba(201,168,76,.06);
-  border: 1px solid rgba(201,168,76,.15);
-  border-radius: 12px;
-  backdrop-filter: blur(8px);
-}
-.counter-number {
-  font-family: var(--font-serif);
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
-  font-weight: 600;
-  color: var(--gold);
-  line-height: 1;
-}
-.counter-label {
-  font-family: var(--font-sans);
-  font-size: .65rem;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-top: .5rem;
 }
 
 /* Polaroid Gallery */
@@ -412,6 +379,7 @@ body {
 #the-date {
   position: relative;
   min-height: 100vh;
+  min-height: 100dvh; /* dynamic viewport height — iOS address bar */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -477,7 +445,9 @@ body {
   border: 1px solid rgba(201,168,76,.3);
   color: var(--gold-light);
   position: relative;
-  transition: all .15s;
+  /* Keep hover/shink animating, but NOT left/top — the dodge must jump
+     instantly or the position transition lags it off-screen. */
+  transition: transform .15s, border-color .15s;
 }
 .btn-no:hover {
   border-color: var(--gold);
@@ -513,87 +483,199 @@ body {
   to   { opacity:1; transform: scale(1) rotateX(0deg); }
 }
 
-.ticket-card {
-  background: linear-gradient(145deg, #faf3e8, #f5e6b8);
-  color: var(--wine-deep);
-  border-radius: 16px;
-  padding: 3rem 2.5rem;
-  max-width: 420px;
-  width: 100%;
+/* ---------- Boarding Pass ---------- */
+.boarding-pass {
   position: relative;
-  box-shadow:
-    0 20px 60px rgba(0,0,0,.4),
-    inset 0 0 0 2px rgba(201,168,76,.3);
+  width: min(400px, calc(100vw - 4rem));
+  background:
+    linear-gradient(160deg, rgba(201,168,76,.07), transparent 45%),
+    var(--cream);
+  color: var(--wine-deep);
+  border-radius: 18px;
+  border: 1px solid rgba(74,14,27,.15);
+  box-shadow: 0 25px 60px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,.45);
   overflow: hidden;
+  font-family: var(--font-sans);
 }
-.ticket-card::before {
+/* airline band */
+.boarding-pass::before {
   content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: conic-gradient(from 0deg, transparent, rgba(201,168,76,.1), transparent 30%);
-  animation: ticketShine 4s linear infinite;
-}
-@keyframes ticketShine {
-  to { transform: rotate(360deg); }
+  display: block;
+  height: 6px;
+  background: linear-gradient(90deg, var(--wine), var(--gold) 50%, var(--wine));
 }
 
-.ticket-header {
-  position: relative;
-  font-family: var(--font-sans);
-  font-size: .7rem;
-  font-weight: 500;
-  letter-spacing: .3em;
-  text-transform: uppercase;
-  color: var(--wine-light);
-  margin-bottom: 1rem;
+.pass-main { padding: 1.5rem 1.5rem 1.3rem; }
+
+.pass-header {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  margin-bottom: 1.3rem;
 }
-.ticket-title {
-  position: relative;
+.plane-icon { color: var(--wine); display: flex; }
+.plane-icon svg { width: 22px; height: 22px; transform: rotate(45deg); }
+.header-title {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+}
+.header-title .title-text {
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .38em;
+  color: var(--wine-light);
+}
+.header-title .line-heart { color: var(--gold); font-size: .85rem; }
+
+/* route — the memorable detail: CCU ♥ FVR */
+.route {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  border-top: 1px dashed rgba(74,14,27,.18);
+  border-bottom: 1px dashed rgba(74,14,27,.18);
+  padding: .9rem 0;
+  margin-bottom: 1.1rem;
+}
+.route-city { display: flex; flex-direction: column; align-items: center; gap: .15rem; }
+.route-label {
+  font-size: .55rem;
+  font-weight: 600;
+  letter-spacing: .2em;
+  color: rgba(74,14,27,.55);
+  font-family: ui-monospace, 'Courier New', monospace;
+  white-space: nowrap;
+}
+.route-code {
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  line-height: 1.1;
+  color: var(--wine);
+  font-family: ui-monospace, 'Courier New', monospace;
+}
+.route-path {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .1rem;
+  color: var(--wine-light);
+  opacity: .75;
+}
+.route-heart { font-size: .7rem; color: var(--gold); opacity: .9; }
+.route-plane { width: 62px; height: 22px; }
+
+/* passengers */
+.passengers {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+}
+.passenger-col { display: flex; flex-direction: column; align-items: flex-start; }
+.passenger-col.right { align-items: flex-end; text-align: right; }
+.passenger-label {
+  font-size: .55rem;
+  font-weight: 600;
+  letter-spacing: .18em;
+  color: rgba(74,14,27,.55);
+  font-family: ui-monospace, 'Courier New', monospace;
+  margin-bottom: .25rem;
+}
+.passenger-name {
   font-family: var(--font-script);
-  font-size: 2.2rem;
+  font-size: 1.55rem;
+  line-height: 1;
   color: var(--wine);
-  margin-bottom: .5rem;
 }
-.ticket-date {
-  position: relative;
-  font-family: var(--font-serif);
-  font-size: 1.1rem;
-  font-style: italic;
-  color: var(--wine-light);
-  margin-bottom: 1.5rem;
+.passenger-heart { font-size: 1rem; color: var(--gold); opacity: .5; }
+
+/* info grid */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid rgba(74,14,27,.12);
+  border-radius: 12px;
+  overflow: hidden;
 }
-.ticket-divider {
+.info-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .25rem;
+  padding: .8rem .3rem;
+  border-right: 1px solid rgba(74,14,27,.12);
+}
+.info-cell:last-child { border-right: none; }
+.info-k {
+  font-size: .5rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  color: rgba(74,14,27,.5);
+  font-family: ui-monospace, 'Courier New', monospace;
+}
+.info-v { font-size: .95rem; font-weight: 700; color: var(--wine-deep); }
+
+/* perforation */
+.pass-divider {
   position: relative;
-  width: 100%;
   height: 1px;
-  background: repeating-linear-gradient(
-    to right,
-    var(--wine-light) 0 8px,
-    transparent 8px 16px
-  );
-  opacity: .3;
-  margin-bottom: 1.5rem;
+  border-top: 2px dashed rgba(74,14,27,.3);
 }
-.ticket-details {
-  position: relative;
-  font-family: var(--font-sans);
-  font-size: .85rem;
-  color: var(--wine-light);
-  line-height: 1.8;
+.notch {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  background: var(--wine-deep); /* page bg → looks like a real cutout */
+  border-radius: 50%;
+  top: -11px;
+  z-index: 2;
 }
-.ticket-details strong {
-  color: var(--wine);
+.notch-left  { left: -11px; }
+.notch-right { right: -11px; }
+
+/* stub: barcode */
+.pass-stub {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1.1rem 1.5rem 1.3rem;
+  background: rgba(201,168,76,.05);
+  border-top: 1px solid rgba(74,14,27,.06);
 }
-.ticket-footer {
-  position: relative;
-  margin-top: 1.5rem;
-  font-family: var(--font-serif);
-  font-size: .9rem;
-  font-style: italic;
-  color: var(--wine);
+.stub-globe { color: var(--wine); opacity: .7; display: flex; }
+.stub-globe .icon-svg-globe { width: 30px; height: 30px; }
+.barcode-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .3rem;
+}
+.barcode-svg { width: 190px; height: auto; color: var(--wine-deep); }
+.barcode-text {
+  font-size: .55rem;
+  font-weight: 600;
+  letter-spacing: .22em;
+  color: var(--wine-deep);
+  font-family: ui-monospace, 'Courier New', monospace;
+}
+
+/* fine print */
+.pass-fineprint {
+  text-align: center;
+  padding: .65rem 1rem .85rem;
+  font-size: .55rem;
+  letter-spacing: .14em;
+  color: rgba(74,14,27,.55);
+  font-family: ui-monospace, 'Courier New', monospace;
+  border-top: 1px dashed rgba(74,14,27,.15);
 }
 
 /* Confetti burst */
@@ -655,10 +737,31 @@ body {
   .gallery-track { padding: 1rem 1.5rem; gap: 1.2rem; }
   .polaroid { width: 220px; padding: 8px 8px 35px; }
   .quote-card { width: 220px; padding: 1.5rem; }
-  .counter-container { gap: .6rem; }
-  .counter-box { min-width: 65px; padding: .8rem .6rem; }
   .date-buttons { gap: 1.2rem; }
   .btn-yes, .btn-no { padding: .8rem 1.8rem; font-size: .9rem; }
   .gallery-arrow { width: 36px; height: 36px; font-size: 1rem; }
-  .ticket-card { padding: 2rem 1.5rem; }
+
+
+}
+
+/* small phones — tighten paddings so nothing feels squeezed */
+@media (max-width: 400px) {
+  #hero { padding: 1.5rem 1rem; }
+  #our-story { padding: 4rem 1.25rem 3rem; }
+  .section-divider { margin-bottom: 2.5rem; }
+  .date-buttons { gap: .8rem; }
+  .btn-yes, .btn-no { padding: .75rem 1.4rem; font-size: .85rem; }
+  .pass-main { padding: 1.4rem 1.2rem 1.2rem; }
+  .pass-stub { padding: 1rem 1.2rem 1.2rem; }
+  .barcode-svg { width: 170px; }
+  .site-footer { padding: 2.5rem 1.25rem; }
+}
+
+/* short / landscape viewports — full-height sections become auto-height */
+@media (max-height: 500px) {
+  #hero, #the-date { min-height: auto; }
+  #hero { padding: 3rem 1.5rem; }
+  .scroll-hint { display: none; }
+  .date-buttons { min-height: 60px; }
+  .gallery-track-wrapper { padding: 1rem 0; }
 }
