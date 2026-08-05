@@ -220,103 +220,83 @@
     <div class="dinner-ticket" id="dinner-ticket">
       <div class="boarding-pass">
 
-        <!-- Main coupon -->
-        <div class="pass-main">
-          <div class="pass-header">
-            <span class="plane-icon">
-              <svg viewBox="0 0 24 24" class="icon-svg"><path fill="currentColor" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
-            </span>
-            <div class="header-title">
-              <span class="title-text">BOARDING PASS</span>
-              <span class="line-heart">♥</span>
-            </div>
+        <!-- Airline header -->
+        <div class="pass-header">
+          <div class="airline-brand">
+            <span class="airline-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z"/></svg></span>
+            <span class="airline-name">LOVE AIRLINES</span>
           </div>
+          <span class="pass-title">BOARDING PASS</span>
+          <span class="pass-gate">GATE 07</span>
+        </div>
 
-          <!-- Route: from our story to forever -->
-          <div class="route">
-            <div class="route-city">
-              <span class="route-label">FROM · CALCUTTA</span>
-              <span class="route-code">CCU</span>
-            </div>
-            <div class="route-path">
-              <span class="route-heart">♥</span>
-              <svg viewBox="0 0 60 22" class="route-plane"><path fill="none" stroke="currentColor" stroke-dasharray="2,2" stroke-width="1.2" d="M2 13 H 56"/><path fill="currentColor" d="M50 13 l10 4.5 v-9 z"/></svg>
-            </div>
-            <div class="route-city">
-              <span class="route-label">TO · FOREVER</span>
-              <span class="route-code">FVR</span>
-            </div>
+        <!-- Route: CCU ✈ FVR -->
+        <div class="route">
+          <div class="route-city">
+            <span class="route-code">CCU</span>
+            <span class="route-name">Calcutta</span>
           </div>
+          <div class="route-path">
+            <svg viewBox="0 0 60 22" class="route-plane" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-dasharray="2,2" stroke-width="1.2" d="M2 13 H 56"/><path fill="currentColor" d="M50 13 l10 4.5 v-9 z"/></svg>
+          </div>
+          <div class="route-city">
+            <span class="route-code">FVR</span>
+            <span class="route-name">Forever</span>
+          </div>
+        </div>
 
-          <!-- Passengers -->
-          <div class="passengers">
-            <div class="passenger-col">
-              <span class="passenger-label">PASSENGER 1</span>
-              <span class="passenger-name">Soutrika</span>
-            </div>
-            <span class="passenger-heart">♥</span>
-            <div class="passenger-col right">
-              <span class="passenger-label">PASSENGER 2</span>
-              <span class="passenger-name">Krishnendu</span>
-            </div>
-          </div>
+        <!-- Passengers -->
+        <div class="passengers">
+          <span class="passenger-label">PASSENGER</span>
+          <span class="passenger-names">Soutrika <span class="passenger-heart">♥</span> Krishnendu</span>
+        </div>
 
-          <!-- Info grid -->
-          <div class="info-grid">
-            <div class="info-cell"><span class="info-k">FLIGHT</span><span class="info-v">LOVE2026</span></div>
-            <div class="info-cell"><span class="info-k">DATE</span><span class="info-v">20 AUG</span></div>
-            <div class="info-cell"><span class="info-k">BOARDING</span><span class="info-v">7:30 PM</span></div>
-            <div class="info-cell"><span class="info-k">SEAT</span><span class="info-v">1 ♥ 1</span></div>
-          </div>
+        <!-- Flight info -->
+        <div class="info-grid">
+          <div class="info-cell"><span class="info-k">FLIGHT</span><span class="info-v">LOVE 2026</span></div>
+          <div class="info-cell"><span class="info-k">DATE</span><span class="info-v">20 AUG</span></div>
+          <div class="info-cell"><span class="info-k">BOARDING</span><span class="info-v">19:30</span></div>
+          <div class="info-cell"><span class="info-k">GATE</span><span class="info-v">07</span></div>
+          <div class="info-cell"><span class="info-k">CLASS</span><span class="info-v">FIRST</span></div>
+          <div class="info-cell"><span class="info-k">SEAT</span><span class="info-v">1A · 1B</span></div>
         </div>
 
         <!-- Perforation -->
-        <div class="pass-divider">
-          <span class="notch notch-left"></span>
-          <span class="notch notch-right"></span>
-        </div>
+        <div class="pass-divider"></div>
 
         <!-- Stub: barcode -->
         <div class="pass-stub">
-          <span class="stub-globe">
-            <svg viewBox="0 0 24 24" class="icon-svg-globe">
-              <path fill="none" stroke="currentColor" stroke-width="1.5" d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 0c-2.5 3-2.5 17 0 20M12 2c2.5 3 2.5 17 0 20M2 12h20M12 12m-2.5 0a2.5 2.5 0 1 0 5 0 2.5 2.5 0 1 0-5 0"/>
-              <path fill="currentColor" d="M12 13.5s-1.8-1.5-1.8-2.6a1.8 1.8 0 0 1 3.6 0c0 1.1-1.8 2.6-1.8 2.6z"/>
-            </svg>
-          </span>
-          <div class="barcode-wrapper">
-            <svg viewBox="0 0 120 40" class="barcode-svg">
-              <rect x="5" y="0" width="2" height="30" fill="currentColor"/>
-              <rect x="9" y="0" width="1" height="30" fill="currentColor"/>
-              <rect x="12" y="0" width="3" height="30" fill="currentColor"/>
-              <rect x="17" y="0" width="1" height="30" fill="currentColor"/>
-              <rect x="20" y="0" width="2" height="30" fill="currentColor"/>
-              <rect x="24" y="0" width="4" height="30" fill="currentColor"/>
-              <rect x="30" y="0" width="1" height="30" fill="currentColor"/>
-              <rect x="33" y="0" width="2" height="30" fill="currentColor"/>
-              <rect x="37" y="0" width="1" height="30" fill="currentColor"/>
-              <rect x="40" y="0" width="3" height="30" fill="currentColor"/>
-              <rect x="45" y="0" width="2" height="30" fill="currentColor"/>
-              <rect x="49" y="0" width="1" height="30" fill="currentColor"/>
-              <rect x="52" y="0" width="4" height="30" fill="currentColor"/>
-              <rect x="58" y="0" width="1" height="30" fill="currentColor"/>
-              <rect x="61" y="0" width="2" height="30" fill="currentColor"/>
-              <rect x="65" y="0" width="3" height="30" fill="currentColor"/>
-              <rect x="70" y="0" width="1" height="30" fill="currentColor"/>
-              <rect x="73" y="0" width="2" height="30" fill="currentColor"/>
-              <rect x="77" y="0" width="4" height="30" fill="currentColor"/>
-              <rect x="83" y="0" width="1" height="30" fill="currentColor"/>
-              <rect x="86" y="0" width="2" height="30" fill="currentColor"/>
-              <rect x="90" y="0" width="1" height="30" fill="currentColor"/>
-              <rect x="93" y="0" width="3" height="30" fill="currentColor"/>
-              <rect x="98" y="0" width="2" height="30" fill="currentColor"/>
-              <rect x="102" y="0" width="1" height="30" fill="currentColor"/>
-              <rect x="105" y="0" width="4" height="30" fill="currentColor"/>
-              <rect x="111" y="0" width="2" height="30" fill="currentColor"/>
-              <rect x="115" y="0" width="1" height="30" fill="currentColor"/>
-            </svg>
-            <div class="barcode-text">LOVE2026 · 20 AUG 2026 · 7:30 PM</div>
-          </div>
+          <svg viewBox="0 0 120 40" class="barcode-svg" aria-hidden="true">
+            <rect x="5" y="0" width="2" height="30" fill="currentColor"/>
+            <rect x="9" y="0" width="1" height="30" fill="currentColor"/>
+            <rect x="12" y="0" width="3" height="30" fill="currentColor"/>
+            <rect x="17" y="0" width="1" height="30" fill="currentColor"/>
+            <rect x="20" y="0" width="2" height="30" fill="currentColor"/>
+            <rect x="24" y="0" width="4" height="30" fill="currentColor"/>
+            <rect x="30" y="0" width="1" height="30" fill="currentColor"/>
+            <rect x="33" y="0" width="2" height="30" fill="currentColor"/>
+            <rect x="37" y="0" width="1" height="30" fill="currentColor"/>
+            <rect x="40" y="0" width="3" height="30" fill="currentColor"/>
+            <rect x="45" y="0" width="2" height="30" fill="currentColor"/>
+            <rect x="49" y="0" width="1" height="30" fill="currentColor"/>
+            <rect x="52" y="0" width="4" height="30" fill="currentColor"/>
+            <rect x="58" y="0" width="1" height="30" fill="currentColor"/>
+            <rect x="61" y="0" width="2" height="30" fill="currentColor"/>
+            <rect x="65" y="0" width="3" height="30" fill="currentColor"/>
+            <rect x="70" y="0" width="1" height="30" fill="currentColor"/>
+            <rect x="73" y="0" width="2" height="30" fill="currentColor"/>
+            <rect x="77" y="0" width="4" height="30" fill="currentColor"/>
+            <rect x="83" y="0" width="1" height="30" fill="currentColor"/>
+            <rect x="86" y="0" width="2" height="30" fill="currentColor"/>
+            <rect x="90" y="0" width="1" height="30" fill="currentColor"/>
+            <rect x="93" y="0" width="3" height="30" fill="currentColor"/>
+            <rect x="98" y="0" width="2" height="30" fill="currentColor"/>
+            <rect x="102" y="0" width="1" height="30" fill="currentColor"/>
+            <rect x="105" y="0" width="4" height="30" fill="currentColor"/>
+            <rect x="111" y="0" width="2" height="30" fill="currentColor"/>
+            <rect x="115" y="0" width="1" height="30" fill="currentColor"/>
+          </svg>
+          <div class="barcode-text">LOVE2026 · SOUTRIKA · ETKT 001</div>
         </div>
 
         <div class="pass-fineprint">THIS JOURNEY IS RESERVED FOR TWO · PLEASE BOARD WITH LOVE ♥</div>

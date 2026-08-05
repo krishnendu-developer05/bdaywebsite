@@ -485,197 +485,197 @@ body {
 
 /* ---------- Boarding Pass ---------- */
 .boarding-pass {
+  --ink:   #20293c;   /* deep navy ink — the premium-airline palette */
+  --ink-2: #3a4560;
+  --muted: #7d879c;
+  --hair:  rgba(32,41,60,.14);
+  --gold-accent: #c9a84c;
   position: relative;
   width: min(400px, calc(100vw - 4rem));
-  background:
-    linear-gradient(160deg, rgba(201,168,76,.07), transparent 45%),
-    var(--cream);
-  color: var(--wine-deep);
-  border-radius: 18px;
-  border: 1px solid rgba(74,14,27,.15);
-  box-shadow: 0 25px 60px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,.45);
+  background: var(--cream);
+  color: var(--ink);
+  border-radius: 16px;
+  box-shadow: 0 30px 70px rgba(0,0,0,.5);
   overflow: hidden;
   font-family: var(--font-sans);
+  font-weight: 500;
+  letter-spacing: .02em;
 }
 /* airline band */
 .boarding-pass::before {
   content: '';
   display: block;
-  height: 6px;
-  background: linear-gradient(90deg, var(--wine), var(--gold) 50%, var(--wine));
+  height: 5px;
+  background: linear-gradient(90deg, var(--ink) 0%, var(--ink-2) 50%, var(--ink) 100%);
 }
 
-.pass-main { padding: 1.5rem 1.5rem 1.3rem; }
-
+/* header — brand · title · gate */
 .pass-header {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  gap: .8rem;
-  margin-bottom: 1.3rem;
-}
-.plane-icon { color: var(--wine); display: flex; }
-.plane-icon svg { width: 22px; height: 22px; transform: rotate(45deg); }
-.header-title {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: .6rem;
-}
-.header-title .title-text {
-  font-size: .72rem;
-  font-weight: 600;
-  letter-spacing: .38em;
-  color: var(--wine-light);
-}
-.header-title .line-heart { color: var(--gold); font-size: .85rem; }
-
-/* route — the memorable detail: CCU ♥ FVR */
-.route {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   gap: .5rem;
-  border-top: 1px dashed rgba(74,14,27,.18);
-  border-bottom: 1px dashed rgba(74,14,27,.18);
-  padding: .9rem 0;
-  margin-bottom: 1.1rem;
+  padding: 1.2rem 1.5rem .9rem;
 }
-.route-city { display: flex; flex-direction: column; align-items: center; gap: .15rem; }
-.route-label {
-  font-size: .55rem;
+.airline-brand {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+}
+.airline-mark {
+  width: 15px;
+  height: 15px;
+  color: var(--gold-accent);
+  display: flex;
+}
+.airline-mark svg { width: 100%; height: 100%; }
+.airline-name {
+  font-size: .62rem;
+  font-weight: 700;
+  letter-spacing: .26em;
+  color: var(--ink-2);
+}
+.pass-title {
+  font-size: .6rem;
+  font-weight: 700;
+  letter-spacing: .32em;
+  color: var(--ink);
+  text-align: center;
+}
+.pass-gate {
+  justify-self: end;
+  font-size: .56rem;
+  font-weight: 600;
+  letter-spacing: .18em;
+  color: var(--muted);
+}
+
+/* route — the memorable detail: CCU ✈ FVR */
+.route {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: .4rem;
+  border-top: 1px solid var(--hair);
+  border-bottom: 1px solid var(--hair);
+  padding: 1.2rem 1.5rem;
+}
+.route-city { display: flex; flex-direction: column; align-items: center; gap: .3rem; }
+.route-code {
+  font-size: 2.15rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+  line-height: 1;
+  color: var(--ink);
+}
+.route-name {
+  font-size: .56rem;
   font-weight: 600;
   letter-spacing: .2em;
-  color: rgba(74,14,27,.55);
-  font-family: ui-monospace, 'Courier New', monospace;
-  white-space: nowrap;
+  text-transform: uppercase;
+  color: var(--muted);
 }
-.route-code {
-  font-size: 1.9rem;
-  font-weight: 700;
-  letter-spacing: .05em;
-  line-height: 1.1;
-  color: var(--wine);
-  font-family: ui-monospace, 'Courier New', monospace;
-}
-.route-path {
-  flex: 1;
+.route-path { display: flex; justify-content: center; color: var(--gold-accent); opacity: .75; }
+.route-plane { width: 68px; height: 22px; }
+
+/* passengers — clean caps, one gold heart kept as the only flourish */
+.passengers {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: .1rem;
-  color: var(--wine-light);
-  opacity: .75;
+  gap: .4rem;
+  padding: 1.1rem 1.5rem .9rem;
 }
-.route-heart { font-size: .7rem; color: var(--gold); opacity: .9; }
-.route-plane { width: 62px; height: 22px; }
-
-/* passengers */
-.passengers {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.2rem;
-}
-.passenger-col { display: flex; flex-direction: column; align-items: flex-start; }
-.passenger-col.right { align-items: flex-end; text-align: right; }
 .passenger-label {
-  font-size: .55rem;
-  font-weight: 600;
-  letter-spacing: .18em;
-  color: rgba(74,14,27,.55);
-  font-family: ui-monospace, 'Courier New', monospace;
-  margin-bottom: .25rem;
+  font-size: .5rem;
+  font-weight: 700;
+  letter-spacing: .24em;
+  color: var(--muted);
 }
-.passenger-name {
-  font-family: var(--font-script);
-  font-size: 1.55rem;
-  line-height: 1;
-  color: var(--wine);
+.passenger-names {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  color: var(--ink);
 }
-.passenger-heart { font-size: 1rem; color: var(--gold); opacity: .5; }
+.passenger-heart { color: var(--gold-accent); font-size: .7em; font-weight: 400; }
 
-/* info grid */
+/* flight info — 2×3 grid, hairline dividers */
 .info-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  border: 1px solid rgba(74,14,27,.12);
-  border-radius: 12px;
-  overflow: hidden;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .4rem 0;
+  padding: 0 .8rem .4rem;
 }
 .info-cell {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: .25rem;
-  padding: .8rem .3rem;
-  border-right: 1px solid rgba(74,14,27,.12);
+  gap: .3rem;
+  padding: .5rem .1rem .6rem;
 }
-.info-cell:last-child { border-right: none; }
+.info-cell + .info-cell { border-left: 1px solid var(--hair); }
 .info-k {
   font-size: .5rem;
-  font-weight: 600;
-  letter-spacing: .14em;
-  color: rgba(74,14,27,.5);
-  font-family: ui-monospace, 'Courier New', monospace;
+  font-weight: 700;
+  letter-spacing: .18em;
+  color: var(--muted);
 }
-.info-v { font-size: .95rem; font-weight: 700; color: var(--wine-deep); }
+.info-v {
+  font-size: .9rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: var(--ink);
+  white-space: nowrap;
+}
 
-/* perforation */
+/* perforation — clean tear line with punched circles */
 .pass-divider {
   position: relative;
   height: 1px;
-  border-top: 2px dashed rgba(74,14,27,.3);
+  border-top: 1.5px dashed rgba(32,41,60,.4);
 }
-.notch {
+.pass-divider::before,
+.pass-divider::after {
+  content: '';
   position: absolute;
+  top: -11px;
   width: 22px;
   height: 22px;
-  background: var(--wine-deep); /* page bg → looks like a real cutout */
   border-radius: 50%;
-  top: -11px;
-  z-index: 2;
+  background: var(--wine-deep); /* page bg → reads as a real punch-out */
 }
-.notch-left  { left: -11px; }
-.notch-right { right: -11px; }
+.pass-divider::before { left: -11px; }
+.pass-divider::after  { right: -11px; }
 
 /* stub: barcode */
 .pass-stub {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  padding: 1.1rem 1.5rem 1.3rem;
-  background: rgba(201,168,76,.05);
-  border-top: 1px solid rgba(74,14,27,.06);
-}
-.stub-globe { color: var(--wine); opacity: .7; display: flex; }
-.stub-globe .icon-svg-globe { width: 30px; height: 30px; }
-.barcode-wrapper {
-  flex: 1;
-  display: flex;
   flex-direction: column;
   align-items: center;
-  gap: .3rem;
+  gap: .5rem;
+  padding: 1.1rem 1.5rem 1.05rem;
+  background: linear-gradient(180deg, transparent, rgba(201,168,76,.08));
 }
-.barcode-svg { width: 190px; height: auto; color: var(--wine-deep); }
+.barcode-svg { width: 210px; height: auto; color: var(--ink); }
 .barcode-text {
-  font-size: .55rem;
+  font-size: .58rem;
   font-weight: 600;
-  letter-spacing: .22em;
-  color: var(--wine-deep);
-  font-family: ui-monospace, 'Courier New', monospace;
+  letter-spacing: .24em;
+  color: var(--muted);
+  white-space: nowrap;
 }
 
 /* fine print */
 .pass-fineprint {
   text-align: center;
-  padding: .65rem 1rem .85rem;
-  font-size: .55rem;
-  letter-spacing: .14em;
-  color: rgba(74,14,27,.55);
-  font-family: ui-monospace, 'Courier New', monospace;
-  border-top: 1px dashed rgba(74,14,27,.15);
+  padding: .7rem 1.5rem .95rem;
+  font-size: .56rem;
+  font-weight: 600;
+  letter-spacing: .2em;
+  color: var(--muted);
 }
 
 /* Confetti burst */
@@ -751,9 +751,9 @@ body {
   .section-divider { margin-bottom: 2.5rem; }
   .date-buttons { gap: .8rem; }
   .btn-yes, .btn-no { padding: .75rem 1.4rem; font-size: .85rem; }
-  .pass-main { padding: 1.4rem 1.2rem 1.2rem; }
-  .pass-stub { padding: 1rem 1.2rem 1.2rem; }
-  .barcode-svg { width: 170px; }
+  .pass-header { padding: 1rem 1.25rem .8rem; }
+  .route { padding: 1rem 1.25rem; }
+  .barcode-svg { width: 180px; }
   .site-footer { padding: 2.5rem 1.25rem; }
 }
 
