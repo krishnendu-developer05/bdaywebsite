@@ -7,16 +7,17 @@
 
 /* ---------- Design Tokens ---------- */
 :root {
-  --wine:        #4a0e1b;
-  --wine-deep:   #2d0a11;
-  --wine-light:  #6b1d34;
-  --gold:        #c9a84c;
-  --gold-light:  #e8d5a3;
+  --wine:        #4A0F1C; /* Deep Burgundy base secondary */
+  --wine-deep:   #3D0A14; /* Deep Burgundy base */
+  --wine-light:  #5C1526; /* Burgundy Glow radial spotlight */
+  --gold:        #D9B776; /* Champagne Gold */
+  --gold-light:  #E8C988;
   --gold-glow:   #f5e6b8;
-  --cream:       #faf3e8;
-  --blush:       #f5e1d0;
-  --text-light:  #f0e4d7;
-  --text-muted:  rgba(240,228,215,.6);
+  --cream:       #FFFCEF; /* Ivory Cream */
+  --blush:       #F26B8A; /* Soft Blush Pink */
+  --text-light:  #F1E7D6; /* Muted Cream Text */
+  --text-muted:  rgba(241, 231, 214, 0.6);
+  --navy-ink:    #1B2A41; /* Navy Ink */
 
   --font-script: 'Great Vibes', cursive;
   --font-serif:  'Cormorant Garamond', serif;
@@ -115,10 +116,8 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  background:
-    radial-gradient(ellipse at 30% 50%, rgba(201,168,76,.08) 0%, transparent 60%),
-    radial-gradient(ellipse at 70% 60%, rgba(107,29,52,.3) 0%, transparent 60%),
-    var(--wine-deep);
+  background: 
+    radial-gradient(circle at center, var(--wine-light) 0%, var(--wine-deep) 80%);
   overflow: hidden;
   padding: 2rem;
 }
@@ -256,6 +255,280 @@ body {
   opacity: .5;
 }
 
+/* Envelope Wrapper & Card */
+.envelope-wrapper {
+  max-width: 600px;
+  width: 100%;
+  padding: 0 1.25rem;
+  margin: 0 auto 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.envelope-card {
+  width: 100%;
+  max-width: 480px;
+  height: 280px;
+  background: var(--wine-light);
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 
+    0 20px 45px rgba(0, 0, 0, 0.4),
+    inset 0 0 30px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: 
+    transform 0.8s var(--ease-smooth), 
+    opacity 0.6s, 
+    height 0.8s var(--ease-smooth), 
+    margin-bottom 0.8s var(--ease-smooth),
+    box-shadow 0.8s;
+  border: 1px solid rgba(201, 168, 76, 0.25);
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+/* Hover effects */
+.envelope-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 
+    0 25px 55px rgba(0, 0, 0, 0.5), 
+    0 0 20px rgba(201, 168, 76, 0.25);
+}
+
+/* Top Flap */
+.envelope-flap.top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  background: linear-gradient(180deg, var(--wine), var(--wine-light));
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top;
+  transition: transform 0.6s var(--ease-smooth), z-index 0.6s;
+  z-index: 4; /* On top when closed */
+  border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+}
+
+/* Left & Right Flaps */
+.envelope-flap.left-right {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--wine-deep) 0%, rgba(107, 29, 82, 0.5) 100%);
+  clip-path: polygon(0 0, 45% 50%, 0 100%, 100% 100%, 55% 50%, 100% 0);
+  z-index: 2;
+}
+
+/* Pocket (bottom flap overlay) */
+.envelope-pocket {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  background: linear-gradient(0deg, var(--wine-deep) 0%, var(--wine) 100%);
+  clip-path: polygon(0 100%, 100% 100%, 50% 0);
+  z-index: 3;
+}
+
+/* Wax Seal */
+.wax-seal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 76px;
+  height: 76px;
+  background: radial-gradient(circle, var(--gold-light) 0%, var(--gold) 70%, var(--gold-light) 100%);
+  border-radius: 50%;
+  z-index: 5; /* Above top flap */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 4px 12px rgba(0,0,0,0.35),
+    inset 0 2px 4px rgba(255,255,255,0.4),
+    0 0 15px rgba(201, 168, 76, 0.2);
+  transition: transform 0.4s var(--ease-smooth), opacity 0.4s;
+}
+
+.envelope-card:hover .wax-seal {
+  transform: translate(-50%, -50%) scale(1.1) rotate(6deg);
+  box-shadow: 
+    0 6px 18px rgba(0,0,0,0.4),
+    0 0 25px rgba(201, 168, 76, 0.4);
+}
+
+.seal-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.seal-heart {
+  color: var(--wine-deep);
+  font-size: 1.7rem;
+  animation: sealHeartbeat 2.2s infinite ease-in-out;
+}
+
+.seal-text {
+  font-size: 0.52rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--wine-deep);
+  margin-top: 3px;
+}
+
+@keyframes sealHeartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.18); }
+}
+
+/* Open Envelope States */
+.envelope-card.open {
+  transform: translateY(40px) scale(0.9);
+  opacity: 0;
+  height: 0;
+  margin-bottom: 0;
+  border-width: 0;
+  padding: 0;
+  pointer-events: none;
+  box-shadow: none;
+}
+
+.envelope-card.open .envelope-flap.top {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+
+.envelope-card.open .wax-seal {
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+}
+
+/* Letter Drawer Layout */
+.letter-drawer {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 1s var(--ease-smooth);
+  width: 100%;
+}
+
+.letter-drawer.open {
+  grid-template-rows: 1fr;
+}
+
+.letter-drawer-inner {
+  overflow: hidden;
+}
+
+/* Story Letter Card */
+.story-letter {
+  max-width: 680px;
+  margin: 1.5rem auto 4rem;
+  padding: 3.5rem 2.5rem 3.5rem;
+  background: var(--cream); /* Ivory Cream background */
+  border: 1px solid rgba(74, 15, 28, 0.2); /* Burgundy border */
+  border-radius: 16px;
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.5),
+    inset 0 0 30px rgba(217, 183, 118, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  position: relative;
+  opacity: 0;
+  transform: translateY(40px) scale(0.95);
+  transition: opacity 1.2s var(--ease-smooth) 0.3s, transform 1.2s var(--ease-smooth) 0.3s;
+}
+
+.letter-drawer.open .story-letter {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.story-letter::before {
+  content: "♥";
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--gold);
+  color: var(--wine-deep);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  z-index: 10;
+}
+
+.letter-paper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.letter-salutation {
+  font-family: var(--font-script);
+  font-size: clamp(2.2rem, 5vw, 3rem);
+  color: var(--wine); /* Burgundy ink */
+  text-align: center;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.02em;
+  text-shadow: none;
+}
+
+.letter-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.letter-body p {
+  font-family: var(--font-serif);
+  font-size: clamp(1.1rem, 2.2vw, 1.35rem);
+  line-height: 1.75;
+  color: var(--wine-deep); /* Burgundy body text */
+  text-align: center;
+  font-weight: 400;
+  font-style: italic; /* Serif italic as requested in spec */
+  margin: 0;
+}
+
+.letter-closing {
+  margin-top: 1.5rem;
+  text-align: center;
+  border-top: 1px solid rgba(74, 15, 28, 0.15);
+  padding-top: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.closing-phrase {
+  font-family: var(--font-serif);
+  font-size: clamp(1.15rem, 2.2vw, 1.4rem);
+  font-style: italic;
+  color: var(--wine);
+  margin: 0;
+}
+
+.closing-signature {
+  font-family: var(--font-script);
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  color: var(--wine);
+  margin: 0;
+  line-height: 1.2;
+}
+
 /* Polaroid Gallery */
 .gallery-track-wrapper {
   position: relative;
@@ -268,17 +541,30 @@ body {
   gap: 2rem;
   padding: 2rem 4rem;
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
   scrollbar-width: none;
   cursor: grab;
+  will-change: scroll-position;
+  transform: translate3d(0, 0, 0);
+  -webkit-overflow-scrolling: touch;
 }
 .gallery-track::-webkit-scrollbar { display: none; }
 .gallery-track:active { cursor: grabbing; }
 
+/* Snapping state toggled by JS during user interaction */
+.gallery-track.snapping {
+  scroll-snap-type: x mandatory;
+}
+.gallery-track.snapping .polaroid {
+  scroll-snap-align: center;
+}
+.gallery-track.snapping .quote-card {
+  scroll-snap-align: center;
+}
+
 .polaroid {
   flex: 0 0 auto;
   width: clamp(220px, 28vw, 300px);
-  background: #faf8f4;
+  background: var(--cream); /* Ivory Cream background */
   padding: 12px 12px 40px;
   border-radius: 3px;
   box-shadow:
@@ -286,7 +572,7 @@ body {
     0 0 0 1px rgba(0,0,0,.05);
   transform: rotate(var(--rotate, 0deg));
   transition: transform .5s var(--ease-smooth), box-shadow .5s;
-  scroll-snap-align: center;
+  will-change: transform;
   position: relative;
 }
 .polaroid:hover {
@@ -314,12 +600,11 @@ body {
   font-family: var(--font-serif);
   font-size: .82rem;
   font-style: italic;
-  color: #4a3728;
+  color: var(--wine-deep); /* Burgundy ink */
   text-align: center;
   line-height: 1.3;
 }
 
-/* Quote cards woven into gallery */
 .quote-card {
   flex: 0 0 auto;
   width: clamp(240px, 28vw, 300px);
@@ -329,7 +614,6 @@ body {
   justify-content: center;
   text-align: center;
   padding: 2rem;
-  scroll-snap-align: center;
 }
 .quote-card .quote-mark {
   font-family: var(--font-script);
@@ -356,8 +640,8 @@ body {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  border: 1px solid rgba(201,168,76,.3);
-  background: rgba(45,10,17,.8);
+  border: 1px solid rgba(217, 183, 118, 0.3);
+  background: rgba(61, 10, 20, 0.85); /* Deep burgundy */
   backdrop-filter: blur(8px);
   color: var(--gold);
   font-size: 1.2rem;
@@ -366,11 +650,12 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 10;
-  transition: all .3s;
+  transition: transform 0.3s var(--ease-smooth), background 0.3s, border-color 0.3s, color 0.3s;
 }
 .gallery-arrow:hover {
-  background: rgba(201,168,76,.15);
+  background: rgba(217, 183, 118, 0.15);
   border-color: var(--gold);
+  transform: translateY(-50%) scale(1.1);
 }
 .gallery-arrow.left  { left: .5rem; }
 .gallery-arrow.right { right: .5rem; }
@@ -479,17 +764,28 @@ body {
 }
 
 @keyframes ticketReveal {
-  from { opacity:0; transform: scale(.8) rotateX(15deg); }
-  to   { opacity:1; transform: scale(1) rotateX(0deg); }
+  0% { 
+    opacity: 0; 
+    transform: scale(0.85) rotate(-4deg); 
+    filter: blur(2px);
+  }
+  70% {
+    transform: scale(1.03) rotate(1deg);
+  }
+  100% { 
+    opacity: 1; 
+    transform: scale(1) rotate(0deg); 
+    filter: none;
+  }
 }
 
 /* ---------- Boarding Pass ---------- */
 .boarding-pass {
-  --ink:   #20293c;   /* deep navy ink — the premium-airline palette */
-  --ink-2: #3a4560;
-  --muted: #7d879c;
-  --hair:  rgba(32,41,60,.14);
-  --gold-accent: #c9a84c;
+  --ink:   var(--navy-ink);   /* Navy Ink #1B2A41 */
+  --ink-2: rgba(27, 42, 65, 0.85);
+  --muted: rgba(27, 42, 65, 0.6);
+  --hair:  rgba(27, 42, 65, 0.14);
+  --gold-accent: var(--gold);
   position: relative;
   width: min(400px, calc(100vw - 4rem));
   background: var(--cream);
@@ -721,31 +1017,63 @@ body {
 /* Footer line */
 .site-footer {
   text-align: center;
-  padding: 3rem 2rem;
+  padding: 4rem 2rem;
   font-family: var(--font-serif);
-  font-size: .8rem;
-  font-style: italic;
+  font-size: 1rem;
   color: var(--text-muted);
   background: var(--wine-deep);
+  border-top: 1px solid rgba(217, 183, 118, 0.1);
 }
-.site-footer .heart {
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.footer-signoff {
+  font-family: var(--font-script);
+  font-size: clamp(2rem, 5vw, 2.6rem);
   color: var(--gold);
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.footer-credit {
+  font-size: 0.85rem;
+  font-style: italic;
+  margin: 0;
+}
+.footer-credit .heart {
+  color: var(--blush);
+}
+.back-to-top {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--gold-light);
+  text-decoration: none;
+  transition: color 0.3s, transform 0.3s;
+  margin-top: 0.5rem;
+}
+.back-to-top:hover {
+  color: var(--gold);
+  transform: translateY(-3px);
 }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 768px) {
+  .story-letter { padding: 2.5rem 1.5rem 2rem; margin-bottom: 3rem; }
   .gallery-track { padding: 1rem 1.5rem; gap: 1.2rem; }
   .polaroid { width: 220px; padding: 8px 8px 35px; }
   .quote-card { width: 220px; padding: 1.5rem; }
   .date-buttons { gap: 1.2rem; }
   .btn-yes, .btn-no { padding: .8rem 1.8rem; font-size: .9rem; }
   .gallery-arrow { width: 36px; height: 36px; font-size: 1rem; }
-
-
 }
 
 /* small phones — tighten paddings so nothing feels squeezed */
 @media (max-width: 400px) {
+  .story-letter { padding: 2rem 1rem 1.5rem; margin-bottom: 2.5rem; }
   #hero { padding: 1.5rem 1rem; }
   #our-story { padding: 4rem 1.25rem 3rem; }
   .section-divider { margin-bottom: 2.5rem; }

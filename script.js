@@ -77,13 +77,56 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { threshold: 0.15 });
   reveals.forEach(el => io.observe(el));
 
+  /* ───── 4. Envelope Interaction & Heart Burst ───── */
+  const envelope = document.getElementById('love-envelope');
+  const drawer = document.getElementById('letter-drawer');
+
+  if (envelope && drawer) {
+    envelope.addEventListener('click', () => {
+      // 1. Trigger the heart burst centered on the envelope
+      burstEnvelopeHearts(envelope);
+      
+      // 2. Animate the envelope flap and fade
+      envelope.classList.add('open');
+      
+      // 3. Open the letter drawer after a small delay
+      setTimeout(() => {
+        drawer.classList.add('open');
+      }, 300);
+    });
+  }
+
+  function burstEnvelopeHearts(el) {
+    const r = el.getBoundingClientRect();
+    const cx = r.left + r.width / 2;
+    const cy = r.top + r.height / 2;
+    const hearts = ['❤️', '💖', '💝', '🤍', '✨', '💕', '💛'];
+    const count = 24; // Generous burst of hearts
+    
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement('span');
+      p.className = 'heart-burst';
+      p.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+      
+      // Angle spread around the circle
+      const ang = (i / count) * Math.PI * 2 + Math.random() * 0.4;
+      const dist = 70 + Math.random() * 140;
+      
+      p.style.left = cx + 'px';
+      p.style.top = cy + 'px';
+      p.style.setProperty('--dx', Math.cos(ang) * dist + 'px');
+      p.style.setProperty('--dy', Math.sin(ang) * dist + 'px');
+      p.style.fontSize = (14 + Math.random() * 16) + 'px';
+      
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 800);
+    }
+  }
+
   /* ───── 5. Gallery Drag & Arrow Scroll ───── */
   const track = document.getElementById('gallery-track');
   const leftBtn  = document.getElementById('gallery-left');
   const rightBtn = document.getElementById('gallery-right');
-
-  leftBtn.addEventListener('click',  () => track.scrollBy({ left: -320, behavior: 'smooth' }));
-  rightBtn.addEventListener('click', () => track.scrollBy({ left:  320, behavior: 'smooth' }));
 
   // drag
   let isDragging = false, startX, scrollLeft;
@@ -91,15 +134,88 @@ document.addEventListener('DOMContentLoaded', () => {
     isDragging = true;
     startX = e.pageX - track.offsetLeft;
     scrollLeft = track.scrollLeft;
+    pauseAutoScroll();
   });
-  track.addEventListener('mouseleave', () => isDragging = false);
-  track.addEventListener('mouseup',    () => isDragging = false);
+  track.addEventListener('mouseleave', () => {
+    isDragging = false;
+    resumeAutoScroll();
+  });
+  track.addEventListener('mouseup',    () => {
+    isDragging = false;
+    resumeAutoScroll();
+  });
   track.addEventListener('mousemove',  (e) => {
     if (!isDragging) return;
     e.preventDefault();
     const x = e.pageX - track.offsetLeft;
     track.scrollLeft = scrollLeft - (x - startX) * 1.5;
   });
+
+  // Auto-scroll logic (gentle speed with float subpixel precision)
+  let scrollPos = track.scrollLeft;
+  let autoScrollSpeed = 0.5; // gentle, steady float increment
+  let autoScrollReq;
+  let isHoveringGallery = false;
+  let resumeTimeout;
+
+  const startAutoScroll = () => {
+    if (!isHoveringGallery && !isDragging) {
+      scrollPos += autoScrollSpeed;
+      track.scrollLeft = scrollPos;
+      
+      const maxScroll = track.scrollWidth - track.clientWidth;
+      
+      // Ping-pong scrolling: reverse direction when hitting ends
+      if (scrollPos >= maxScroll - 1) {
+         autoScrollSpeed = -0.5; // Scroll left
+         scrollPos = maxScroll - 1;
+      } else if (scrollPos <= 0) {
+         autoScrollSpeed = 0.5;  // Scroll right
+         scrollPos = 0;
+      }
+    } else {
+      // Sync float position when user interacts (mouse wheel, drag, or button click)
+      scrollPos = track.scrollLeft;
+    }
+    autoScrollReq = requestAnimationFrame(startAutoScroll);
+  };
+
+  // Start auto-scroll
+  autoScrollReq = requestAnimationFrame(startAutoScroll);
+
+  const pauseAutoScroll = () => {
+    isHoveringGallery = true;
+    track.classList.add('snapping');
+    if (resumeTimeout) clearTimeout(resumeTimeout);
+  };
+
+  const resumeAutoScroll = () => {
+    if (resumeTimeout) clearTimeout(resumeTimeout);
+    resumeTimeout = setTimeout(() => {
+      track.classList.remove('snapping');
+      isHoveringGallery = false;
+      isDragging = false;
+      scrollPos = track.scrollLeft; // sync position
+    }, 1500); // Resume smooth glide 1.5s after interaction ends
+  };
+
+  // Pause on hover or touch
+  track.addEventListener('mouseenter', pauseAutoScroll);
+  track.addEventListener('touchstart', pauseAutoScroll, {passive: true});
+  track.addEventListener('touchend', resumeAutoScroll, {passive: true});
+
+  // Arrow button click listeners with snapping
+  leftBtn.addEventListener('click', () => {
+    pauseAutoScroll();
+    track.scrollBy({ left: -320, behavior: 'smooth' });
+    resumeAutoScroll();
+  });
+  rightBtn.addEventListener('click', () => {
+    pauseAutoScroll();
+    track.scrollBy({ left:  320, behavior: 'smooth' });
+    resumeAutoScroll();
+  });
+
 
   /* ───── 6. The Date — Dodging "No" Button ───── */
   const btnNo   = document.getElementById('btn-no');
