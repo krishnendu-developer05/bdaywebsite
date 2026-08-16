@@ -3,6 +3,10 @@
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+  const saveData = navigator.connection?.saveData === true;
+  const lightEffects = prefersReducedMotion || isCoarsePointer || saveData;
 
   /* ───── 0. Greeting Overlay ───── */
   const overlay = document.getElementById('greeting-overlay');
@@ -10,7 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
     burstGreetingHeart();
     overlay.classList.add('hidden');
     // Start petals only after overlay is dismissed
-    setTimeout(createPetals, 800);
+    if (!prefersReducedMotion) {
+      setTimeout(createPetals, 800);
+    }
   });
 
   // Scatter a burst of hearts from the greeting heart on tap
@@ -20,11 +26,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const cx = r.left + r.width / 2;
     const cy = r.top + r.height / 2;
     heart.classList.add('burst');
-    for (let i = 0; i < 14; i++) {
+    const count = lightEffects ? 8 : 14;
+    for (let i = 0; i < count; i++) {
       const p = document.createElement('span');
       p.className = 'heart-burst';
       p.textContent = '🤍';
-      const ang = (i / 14) * Math.PI * 2 + Math.random() * .5;
+      const ang = (i / count) * Math.PI * 2 + Math.random() * .5;
       const dist = 60 + Math.random() * 110;
       p.style.left = cx + 'px';
       p.style.top = cy + 'px';
@@ -40,14 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
   function createPetals() {
     const container = document.getElementById('petals');
     const petalSVG = `<svg viewBox="0 0 24 24"><path d="M12 2C9 6 4 9 4 14c0 4.4 3.6 8 8 8s8-3.6 8-8c0-5-5-8-8-12z"/></svg>`;
-    const count = 18;
+    const count = lightEffects ? 4 : 8;
     for (let i = 0; i < count; i++) {
       const petal = document.createElement('div');
       petal.className = 'petal';
       petal.innerHTML = petalSVG;
       petal.style.left = Math.random() * 100 + '%';
-      petal.style.animationDuration = (8 + Math.random() * 10) + 's';
-      petal.style.animationDelay = (Math.random() * 12) + 's';
+      petal.style.animationDuration = (9 + Math.random() * 10) + 's';
+      petal.style.animationDelay    = (Math.random() * 14) + 's';
       petal.querySelector('svg').style.transform = `rotate(${Math.random()*360}deg)`;
       container.appendChild(petal);
     }
@@ -55,14 +62,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ───── 2. Hero Sparkle Particles ───── */
   const particlesContainer = document.getElementById('hero-particles');
-  for (let i = 0; i < 35; i++) {
-    const s = document.createElement('span');
-    s.style.left = Math.random() * 100 + '%';
-    s.style.top  = Math.random() * 100 + '%';
-    s.style.animationDuration = (4 + Math.random() * 6) + 's';
-    s.style.animationDelay    = (Math.random() * 6) + 's';
-    s.style.width = s.style.height = (2 + Math.random() * 3) + 'px';
-    particlesContainer.appendChild(s);
+  if (!prefersReducedMotion) {
+    const particleCount = lightEffects ? 8 : 14;
+    const particleFragment = document.createDocumentFragment();
+
+    for (let i = 0; i < particleCount; i++) {
+      const s = document.createElement('span');
+      s.style.left = Math.random() * 100 + '%';
+      s.style.top  = Math.random() * 100 + '%';
+      s.style.animationDuration = (5 + Math.random() * 7) + 's';
+      s.style.animationDelay    = (Math.random() * 8) + 's';
+      s.style.width = s.style.height = (2 + Math.random() * 2) + 'px';
+      particleFragment.appendChild(s);
+    }
+
+    particlesContainer.appendChild(particleFragment);
   }
 
   /* ───── 3. Scroll Reveal ───── */
@@ -82,17 +96,31 @@ document.addEventListener('DOMContentLoaded', () => {
   const drawer = document.getElementById('letter-drawer');
 
   if (envelope && drawer) {
-    envelope.addEventListener('click', () => {
-      // 1. Trigger the heart burst centered on the envelope
+    const triggerOpen = () => {
+      // Prevent double-triggering
+      if (envelope.classList.contains('untying') || envelope.classList.contains('open')) return;
+
+      // Phase 1 — burst hearts immediately
       burstEnvelopeHearts(envelope);
-      
-      // 2. Animate the envelope flap and fade
-      envelope.classList.add('open');
-      
-      // 3. Open the letter drawer after a small delay
+
+      // Phase 2 — start untying animation on the rope
+      envelope.classList.add('untying');
+
+      // Phase 3 — after rope fully unties (800ms), fold flap open and start fade
       setTimeout(() => {
+        envelope.classList.add('open');
+      }, 800);
+
+      // Phase 4 — after envelope fades (1500ms total), slide in the letter
+      setTimeout(() => {
+        envelope.classList.add('gone');
         drawer.classList.add('open');
-      }, 300);
+      }, 1400);
+    };
+
+    envelope.addEventListener('click', triggerOpen);
+    envelope.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); triggerOpen(); }
     });
   }
 
@@ -101,7 +129,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const cx = r.left + r.width / 2;
     const cy = r.top + r.height / 2;
     const hearts = ['❤️', '💖', '💝', '🤍', '✨', '💕', '💛'];
-    const count = 24; // Generous burst of hearts
+    const count = lightEffects ? 10 : 18; // Generous burst, without a big layout spike
+    const fragment = document.createDocumentFragment();
     
     for (let i = 0; i < count; i++) {
       const p = document.createElement('span');
@@ -118,9 +147,11 @@ document.addEventListener('DOMContentLoaded', () => {
       p.style.setProperty('--dy', Math.sin(ang) * dist + 'px');
       p.style.fontSize = (14 + Math.random() * 16) + 'px';
       
-      document.body.appendChild(p);
+      fragment.appendChild(p);
       setTimeout(() => p.remove(), 800);
     }
+
+    document.body.appendChild(fragment);
   }
 
   /* ───── 5. Gallery Drag & Arrow Scroll ───── */
@@ -151,41 +182,87 @@ document.addEventListener('DOMContentLoaded', () => {
     track.scrollLeft = scrollLeft - (x - startX) * 1.5;
   });
 
-  // Auto-scroll logic (gentle speed with float subpixel precision)
+  // Auto-scroll logic. Keep the photo glide on, while still respecting reduced
+  // motion/data-saver and pausing during direct user interaction.
   let scrollPos = track.scrollLeft;
-  let autoScrollSpeed = 0.5; // gentle, steady float increment
-  let autoScrollReq;
+  let autoScrollSpeed = 0.03; // px per ms, roughly the old gentle desktop pace
+  let autoScrollReq = null;
   let isHoveringGallery = false;
+  let isGalleryVisible = false;
   let resumeTimeout;
+  let lastAutoScrollTime = 0;
+  const disableGalleryAutoScroll = prefersReducedMotion || saveData;
+  const autoScrollFrameMs = 34;
 
-  const startAutoScroll = () => {
-    if (!isHoveringGallery && !isDragging) {
-      scrollPos += autoScrollSpeed;
+  const shouldAutoScroll = () => (
+    !disableGalleryAutoScroll &&
+    isGalleryVisible &&
+    !isHoveringGallery &&
+    !isDragging &&
+    !document.hidden
+  );
+
+  const stopAutoScroll = () => {
+    if (autoScrollReq) {
+      cancelAnimationFrame(autoScrollReq);
+      autoScrollReq = null;
+    }
+  };
+
+  const scheduleAutoScroll = () => {
+    if (!autoScrollReq && shouldAutoScroll()) {
+      autoScrollReq = requestAnimationFrame(startAutoScroll);
+    }
+  };
+
+  const startAutoScroll = (timestamp) => {
+    autoScrollReq = null;
+    if (!shouldAutoScroll()) return;
+
+    if (!lastAutoScrollTime) {
+      lastAutoScrollTime = timestamp;
+    }
+
+    const elapsed = timestamp - lastAutoScrollTime;
+    if (elapsed >= autoScrollFrameMs) {
+      scrollPos += autoScrollSpeed * elapsed;
       track.scrollLeft = scrollPos;
       
       const maxScroll = track.scrollWidth - track.clientWidth;
       
-      // Ping-pong scrolling: reverse direction when hitting ends
       if (scrollPos >= maxScroll - 1) {
-         autoScrollSpeed = -0.5; // Scroll left
+         autoScrollSpeed = -Math.abs(autoScrollSpeed);
          scrollPos = maxScroll - 1;
       } else if (scrollPos <= 0) {
-         autoScrollSpeed = 0.5;  // Scroll right
+         autoScrollSpeed = Math.abs(autoScrollSpeed);
          scrollPos = 0;
       }
-    } else {
-      // Sync float position when user interacts (mouse wheel, drag, or button click)
-      scrollPos = track.scrollLeft;
+
+      lastAutoScrollTime = timestamp;
     }
-    autoScrollReq = requestAnimationFrame(startAutoScroll);
+
+    scheduleAutoScroll();
   };
 
-  // Start auto-scroll
-  autoScrollReq = requestAnimationFrame(startAutoScroll);
+  // Use IntersectionObserver to start/stop rAF based on visibility
+  const galleryObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      isGalleryVisible = entry.isIntersecting;
+      if (isGalleryVisible) {
+        scrollPos = track.scrollLeft;
+        lastAutoScrollTime = 0;
+        scheduleAutoScroll();
+      } else {
+        stopAutoScroll();
+      }
+    });
+  }, { threshold: 0.1 });
+  galleryObserver.observe(track);
 
   const pauseAutoScroll = () => {
     isHoveringGallery = true;
     track.classList.add('snapping');
+    stopAutoScroll();
     if (resumeTimeout) clearTimeout(resumeTimeout);
   };
 
@@ -196,6 +273,8 @@ document.addEventListener('DOMContentLoaded', () => {
       isHoveringGallery = false;
       isDragging = false;
       scrollPos = track.scrollLeft; // sync position
+      lastAutoScrollTime = 0;
+      scheduleAutoScroll();
     }, 1500); // Resume smooth glide 1.5s after interaction ends
   };
 
@@ -214,6 +293,16 @@ document.addEventListener('DOMContentLoaded', () => {
     pauseAutoScroll();
     track.scrollBy({ left:  320, behavior: 'smooth' });
     resumeAutoScroll();
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stopAutoScroll();
+    } else {
+      scrollPos = track.scrollLeft;
+      lastAutoScrollTime = 0;
+      scheduleAutoScroll();
+    }
   });
 
 
@@ -289,7 +378,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function burstConfetti() {
     const container = document.getElementById('confetti');
     const colors = ['#c9a84c', '#e8d5a3', '#f5e6b8', '#6b1d34', '#faf3e8', '#ff6b8a', '#ffd700'];
-    for (let i = 0; i < 80; i++) {
+    const count = lightEffects ? 48 : 72;
+    for (let i = 0; i < count; i++) {
       const piece = document.createElement('div');
       piece.className = 'confetti-piece';
       piece.style.left = Math.random() * 100 + '%';

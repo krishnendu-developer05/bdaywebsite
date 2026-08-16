@@ -3,8 +3,6 @@
    Wine & Gold · Petals · Polaroids · Love
    ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@200;300;400;500;600&display=swap');
-
 /* ---------- Design Tokens ---------- */
 :root {
   --wine:        #4A0F1C; /* Deep Burgundy base secondary */
@@ -135,32 +133,35 @@ body {
   background: var(--gold);
   border-radius: 50%;
   opacity: 0;
+  /* GPU-only animation: only opacity + transform, no layout triggers */
   animation: sparkle 6s linear infinite;
+  will-change: transform, opacity;
 }
 
 @keyframes sparkle {
-  0%   { opacity:0; transform:translateY(0) scale(0); }
-  10%  { opacity:1; transform:translateY(-30px) scale(1); }
-  100% { opacity:0; transform:translateY(-100vh) scale(0); }
+  0%   { opacity:0; transform:translate3d(0,0,0) scale(0); }
+  10%  { opacity:1; transform:translate3d(0,-30px,0) scale(1); }
+  100% { opacity:0; transform:translate3d(0,-100vh,0) scale(0); }
 }
 
 .hero-content {
   position: relative;
   z-index: 2;
   animation: fadeInUp 1.5s var(--ease-smooth) both;
+  will-change: transform, opacity;
 }
 
 .hero-name {
   font-family: var(--font-script);
   font-size: clamp(3.5rem, 10vw, 8rem);
-  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 40%, var(--gold) 80%);
-  background-size: 200% 200%;
+  /* Static gold gradient — no background-position animation (expensive) */
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: shimmer 4s ease infinite;
   line-height: 1.4;
   margin-bottom: .5rem;
-  filter: drop-shadow(0 0 30px rgba(201,168,76,.3));
+  /* Use filter glow instead of animated shimmer */
+  filter: drop-shadow(0 0 24px rgba(217,183,118,.35));
 }
 
 @keyframes shimmer {
@@ -216,18 +217,21 @@ body {
   top: -40px;
   opacity: 0;
   animation: petalFall linear infinite;
+  will-change: transform, opacity;
+  contain: layout style paint;
 }
 .petal svg {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   fill: var(--wine-light);
-  opacity: .35;
+  opacity: .3;
 }
+/* GPU-only: only transform + opacity — no layout shift */
 @keyframes petalFall {
-  0%   { opacity:0; transform: translateY(0) rotate(0deg) translateX(0); }
-  10%  { opacity:.5; }
-  90%  { opacity:.3; }
-  100% { opacity:0; transform: translateY(105vh) rotate(720deg) translateX(80px); }
+  0%   { opacity:0; transform: translate3d(0,0,0) rotate(0deg); }
+  10%  { opacity:.45; }
+  90%  { opacity:.25; }
+  100% { opacity:0; transform: translate3d(60px,105vh,0) rotate(540deg); }
 }
 
 /* ---------- Section: Our Story (Timeline) ---------- */
@@ -271,31 +275,28 @@ body {
   width: 100%;
   max-width: 480px;
   height: 280px;
-  background: var(--wine-light);
-  border-radius: 16px;
+  /* Deep Burgundy body matching the site palette */
+  background: linear-gradient(160deg, #4A0F1C 0%, #3D0A14 60%, #2a0810 100%);
+  border-radius: 12px;
   position: relative;
-  overflow: hidden;
+  overflow: visible; /* allow SVG to extend slightly */
   box-shadow: 
-    0 20px 45px rgba(0, 0, 0, 0.4),
-    inset 0 0 30px rgba(0, 0, 0, 0.3);
+    0 20px 50px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(217, 183, 118, 0.12),
+    0 0 0 1px rgba(217, 183, 118, 0.15);
   cursor: pointer;
   transition: 
-    transform 0.8s var(--ease-smooth), 
-    opacity 0.6s, 
-    height 0.8s var(--ease-smooth), 
-    margin-bottom 0.8s var(--ease-smooth),
-    box-shadow 0.8s;
-  border: 1px solid rgba(201, 168, 76, 0.25);
-  perspective: 1000px;
-  transform-style: preserve-3d;
+    transform 0.7s var(--ease-smooth),
+    opacity 0.6s var(--ease-smooth),
+    box-shadow 0.7s;
 }
 
-/* Hover effects */
 .envelope-card:hover {
-  transform: translateY(-8px) scale(1.02);
+  transform: translateY(-6px) scale(1.02);
   box-shadow: 
-    0 25px 55px rgba(0, 0, 0, 0.5), 
-    0 0 20px rgba(201, 168, 76, 0.25);
+    0 28px 60px rgba(0, 0, 0, 0.6),
+    0 0 30px rgba(217, 183, 118, 0.18),
+    0 0 0 1px rgba(217, 183, 118, 0.25);
 }
 
 /* Top Flap */
@@ -304,118 +305,155 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 150px;
-  background: linear-gradient(180deg, var(--wine), var(--wine-light));
+  height: 145px;
+  background: linear-gradient(175deg, #5C1526 0%, #3D0A14 100%);
   clip-path: polygon(0 0, 100% 0, 50% 100%);
-  transform-origin: top;
-  transition: transform 0.6s var(--ease-smooth), z-index 0.6s;
-  z-index: 4; /* On top when closed */
-  border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+  transform-origin: top center;
+  transition: transform 0.7s var(--ease-smooth) 0.7s;
+  z-index: 4;
+  border-bottom: 1px solid rgba(217, 183, 118, 0.1);
 }
 
 /* Left & Right Flaps */
 .envelope-flap.left-right {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, var(--wine-deep) 0%, rgba(107, 29, 82, 0.5) 100%);
+  background: linear-gradient(135deg, #2a0810 0%, #3D0A14 50%, #2a0810 100%);
   clip-path: polygon(0 0, 45% 50%, 0 100%, 100% 100%, 55% 50%, 100% 0);
   z-index: 2;
+  border-radius: 12px;
 }
 
-/* Pocket (bottom flap overlay) */
+/* Pocket (bottom flap) */
 .envelope-pocket {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 150px;
-  background: linear-gradient(0deg, var(--wine-deep) 0%, var(--wine) 100%);
+  height: 145px;
+  background: linear-gradient(0deg, #2a0810 0%, #3D0A14 100%);
   clip-path: polygon(0 100%, 100% 100%, 50% 0);
   z-index: 3;
 }
 
-/* Wax Seal */
-.wax-seal {
+/* Twine SVG overlay */
+.twine-svg {
   position: absolute;
-  top: 50%;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 6;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* Tap hint */
+.envelope-hint {
+  position: absolute;
+  bottom: 18px;
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: 76px;
-  height: 76px;
-  background: radial-gradient(circle, var(--gold-light) 0%, var(--gold) 70%, var(--gold-light) 100%);
-  border-radius: 50%;
-  z-index: 5; /* Above top flap */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 
-    0 4px 12px rgba(0,0,0,0.35),
-    inset 0 2px 4px rgba(255,255,255,0.4),
-    0 0 15px rgba(201, 168, 76, 0.2);
-  transition: transform 0.4s var(--ease-smooth), opacity 0.4s;
+  transform: translateX(-50%);
+  z-index: 7;
+  pointer-events: none;
+}
+.hint-text {
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(217, 183, 118, 0.55);
+  animation: hintPulse 2.4s ease-in-out infinite;
+}
+@keyframes hintPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
 }
 
-.envelope-card:hover .wax-seal {
-  transform: translate(-50%, -50%) scale(1.1) rotate(6deg);
-  box-shadow: 
-    0 6px 18px rgba(0,0,0,0.4),
-    0 0 25px rgba(201, 168, 76, 0.4);
+/* ── Untying animation keyframes ── */
+@keyframes bowLoopShrink {
+  0% { transform-origin: 240px 140px; transform: scale(1); opacity: 1; }
+  40% { transform: scale(0.5) rotate(12deg); opacity: 0.6; }
+  100% { transform: scale(0); opacity: 0; }
+}
+@keyframes bowTailDropLeft {
+  0% { opacity: 1; }
+  100% { transform: translate(-30px, 40px) rotate(-25deg); opacity: 0; }
+}
+@keyframes bowTailDropRight {
+  0% { opacity: 1; }
+  100% { transform: translate(30px, 40px) rotate(25deg); opacity: 0; }
+}
+@keyframes twineHLeftSlide {
+  0% { opacity: 1; }
+  100% { transform: translateX(-110%) rotate(-8deg); opacity: 0; }
+}
+@keyframes twineHRightSlide {
+  0% { opacity: 1; }
+  100% { transform: translateX(110%) rotate(8deg); opacity: 0; }
+}
+@keyframes twineVTopSlide {
+  0% { opacity: 1; }
+  100% { transform: translateY(-120%); opacity: 0; }
+}
+@keyframes twineVBottomSlide {
+  0% { opacity: 1; }
+  100% { transform: translateY(120%); opacity: 0; }
+}
+@keyframes knotFade {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0); }
 }
 
-.seal-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
+/* ── .untying state: apply animations ── */
+.envelope-card.untying .bow-loop {
+  animation: bowLoopShrink 0.5s var(--ease-smooth) forwards;
 }
-
-.seal-heart {
-  color: var(--wine-deep);
-  font-size: 1.7rem;
-  animation: sealHeartbeat 2.2s infinite ease-in-out;
+.envelope-card.untying .bow-tail.bow-tail-left {
+  animation: bowTailDropLeft 0.5s var(--ease-smooth) 0.1s forwards;
 }
-
-.seal-text {
-  font-size: 0.52rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--wine-deep);
-  margin-top: 3px;
+.envelope-card.untying .bow-tail.bow-tail-right {
+  animation: bowTailDropRight 0.5s var(--ease-smooth) 0.1s forwards;
 }
-
-@keyframes sealHeartbeat {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.18); }
+.envelope-card.untying .twine-h-left {
+  animation: twineHLeftSlide 0.45s var(--ease-smooth) 0.35s forwards;
 }
-
-/* Open Envelope States */
-.envelope-card.open {
-  transform: translateY(40px) scale(0.9);
+.envelope-card.untying .twine-h-right {
+  animation: twineHRightSlide 0.45s var(--ease-smooth) 0.35s forwards;
+}
+.envelope-card.untying .twine-v-top {
+  animation: twineVTopSlide 0.45s var(--ease-smooth) 0.4s forwards;
+}
+.envelope-card.untying .twine-v-bottom {
+  animation: twineVBottomSlide 0.45s var(--ease-smooth) 0.4s forwards;
+}
+.envelope-card.untying .bow-knot {
+  animation: knotFade 0.3s var(--ease-smooth) 0.2s forwards;
+}
+.envelope-card.untying .hint-text {
   opacity: 0;
-  height: 0;
-  margin-bottom: 0;
-  border-width: 0;
-  padding: 0;
+  transition: opacity 0.2s;
+}
+
+/* Open state — flap folds back, envelope fades */
+.envelope-card.open {
+  transform: translateY(24px) scale(0.94);
+  opacity: 0;
   pointer-events: none;
   box-shadow: none;
 }
-
+.envelope-card.gone {
+  display: none;
+}
 .envelope-card.open .envelope-flap.top {
   transform: rotateX(180deg);
-  z-index: 1;
-}
-
-.envelope-card.open .wax-seal {
-  transform: translate(-50%, -50%) scale(0);
-  opacity: 0;
 }
 
 /* Letter Drawer Layout */
 .letter-drawer {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 1s var(--ease-smooth);
+  transition: grid-template-rows 0.65s var(--ease-smooth);
   width: 100%;
 }
 
@@ -432,23 +470,20 @@ body {
   max-width: 680px;
   margin: 1.5rem auto 4rem;
   padding: 3.5rem 2.5rem 3.5rem;
-  background: var(--cream); /* Ivory Cream background */
-  border: 1px solid rgba(74, 15, 28, 0.2); /* Burgundy border */
+  background: var(--cream);
+  border: 1px solid rgba(74, 15, 28, 0.18);
   border-radius: 16px;
-  box-shadow: 
-    0 20px 50px rgba(0, 0, 0, 0.5),
-    inset 0 0 30px rgba(217, 183, 118, 0.1);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  /* Removed backdrop-filter — heavy GPU repaint on every scroll */
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.32);
   position: relative;
   opacity: 0;
-  transform: translateY(40px) scale(0.95);
-  transition: opacity 1.2s var(--ease-smooth) 0.3s, transform 1.2s var(--ease-smooth) 0.3s;
+  transform: translate3d(0, 40px, 0) scale(0.96);
+  transition: opacity 0.75s var(--ease-smooth) 0.15s, transform 0.75s var(--ease-smooth) 0.15s;
 }
 
 .letter-drawer.open .story-letter {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translate3d(0, 0, 0) scale(1);
 }
 
 .story-letter::before {
@@ -543,9 +578,8 @@ body {
   overflow-x: auto;
   scrollbar-width: none;
   cursor: grab;
-  will-change: scroll-position;
-  transform: translate3d(0, 0, 0);
   -webkit-overflow-scrolling: touch;
+  contain: layout paint;
 }
 .gallery-track::-webkit-scrollbar { display: none; }
 .gallery-track:active { cursor: grabbing; }
@@ -564,16 +598,19 @@ body {
 .polaroid {
   flex: 0 0 auto;
   width: clamp(220px, 28vw, 300px);
-  background: var(--cream); /* Ivory Cream background */
+  background: var(--cream);
   padding: 12px 12px 40px;
   border-radius: 3px;
-  box-shadow:
-    0 4px 20px rgba(0,0,0,.25),
-    0 0 0 1px rgba(0,0,0,.05);
+  /* Simplified single-shadow — multi-shadow is costlier */
+  box-shadow: 0 6px 22px rgba(0,0,0,.28);
   transform: rotate(var(--rotate, 0deg));
-  transition: transform .5s var(--ease-smooth), box-shadow .5s;
-  will-change: transform;
+  transition: transform .4s var(--ease-smooth), box-shadow .4s;
+  /* No will-change here — 24 promoted GPU layers causes memory thrash */
   position: relative;
+}
+.polaroid:hover {
+  /* Only promote the actively hovered card */
+  will-change: transform;
 }
 .polaroid:hover {
   transform: rotate(0deg) scale(1.05) translateY(-8px);
@@ -586,11 +623,6 @@ body {
   object-fit: cover;
   display: block;
   border-radius: 1px;
-  filter: saturate(.9);
-  transition: filter .4s;
-}
-.polaroid:hover img {
-  filter: saturate(1.1);
 }
 .polaroid .caption {
   position: absolute;
@@ -642,7 +674,6 @@ body {
   border-radius: 50%;
   border: 1px solid rgba(217, 183, 118, 0.3);
   background: rgba(61, 10, 20, 0.85); /* Deep burgundy */
-  backdrop-filter: blur(8px);
   color: var(--gold);
   font-size: 1.2rem;
   cursor: pointer;
@@ -1093,3 +1124,27 @@ body {
   .date-buttons { min-height: 60px; }
   .gallery-track-wrapper { padding: 1rem 0; }
 }
+
+/* ── prefers-reduced-motion: kill all ambient animations ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .petal { display: none; }
+  .hero-particles span { display: none; }
+  .hint-text { animation: none; opacity: 0.7; }
+}
+
+/* ── Layout containment hints for browser optimization ── */
+#our-story,
+.site-footer {
+  content-visibility: auto;
+  contain: layout style paint;
+}
+
+#our-story { contain-intrinsic-size: auto 1800px; }
+.site-footer { contain-intrinsic-size: auto 260px; }

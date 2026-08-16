@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Happy Birthday, Soutrika ♥</title>
   <meta name="description" content="A love letter in pixels — Happy Birthday Soutrika. 23 Sep 2023 to forever." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@200;300;400;500;600&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
   <!-- ═══════ GREETING OVERLAY ═══════ -->
   <div id="greeting-overlay">
     <div class="greeting-heart">🤍</div>
     <div class="greeting-text">
-      I made something for you…<br/>just tap anywhere
+      I made something for you…<br />just tap anywhere
     </div>
     <div class="greeting-tap">tap to begin</div>
   </div>
@@ -40,17 +47,55 @@
 
     <!-- Envelope Wrapper -->
     <div class="envelope-wrapper reveal">
-      <!-- Closed Envelope -->
-      <div class="envelope-card" id="love-envelope">
+      <!-- Closed Envelope with Twine Rope -->
+      <div class="envelope-card" id="love-envelope" role="button" aria-label="Open love letter" tabindex="0">
+
+        <!-- Envelope Body Layers -->
         <div class="envelope-flap top"></div>
         <div class="envelope-flap left-right"></div>
         <div class="envelope-pocket"></div>
-        <div class="wax-seal">
-          <div class="seal-inner">
-            <span class="seal-heart">♥</span>
-            <span class="seal-text">TAP ME</span>
-          </div>
+
+        <!-- SVG Twine Rope Overlay -->
+        <svg class="twine-svg" viewBox="0 0 480 280" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- Horizontal string left half -->
+          <line class="twine-h twine-h-left" x1="0" y1="140" x2="218" y2="140"
+            stroke="#D9B776" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Horizontal string right half -->
+          <line class="twine-h twine-h-right" x1="262" y1="140" x2="480" y2="140"
+            stroke="#D9B776" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Vertical string top half -->
+          <line class="twine-v twine-v-top" x1="240" y1="0" x2="240" y2="118"
+            stroke="#D9B776" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Vertical string bottom half -->
+          <line class="twine-v twine-v-bottom" x1="240" y1="162" x2="240" y2="280"
+            stroke="#D9B776" stroke-width="2.5" stroke-linecap="round"/>
+
+          <!-- BOW: Left loop -->
+          <path class="bow-loop bow-loop-left"
+            d="M240,140 C218,118 185,108 188,128 C191,148 222,143 240,140"
+            fill="none" stroke="#E8C988" stroke-width="3" stroke-linecap="round"/>
+          <!-- BOW: Right loop -->
+          <path class="bow-loop bow-loop-right"
+            d="M240,140 C262,118 295,108 292,128 C289,148 258,143 240,140"
+            fill="none" stroke="#E8C988" stroke-width="3" stroke-linecap="round"/>
+          <!-- BOW: Left tail -->
+          <path class="bow-tail bow-tail-left"
+            d="M240,140 C225,158 205,165 198,172"
+            fill="none" stroke="#D9B776" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- BOW: Right tail -->
+          <path class="bow-tail bow-tail-right"
+            d="M240,140 C255,158 275,165 282,172"
+            fill="none" stroke="#D9B776" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- BOW: Center knot -->
+          <ellipse class="bow-knot" cx="240" cy="140" rx="7" ry="9"
+            fill="#D9B776" stroke="#c9a84c" stroke-width="1"/>
+        </svg>
+
+        <!-- Tap hint -->
+        <div class="envelope-hint">
+          <span class="hint-text">tap to open</span>
         </div>
+
       </div>
 
       <!-- Letter Container (Initially Collapsed) -->
@@ -60,9 +105,17 @@
             <div class="letter-paper">
               <h3 class="letter-salutation">Happy Birthday, Soutrika ❤️</h3>
               <div class="letter-body">
-                <p>This year gave me its share of losses and its share of wins, but honestly, none of it mattered as much as having you next to me through all of it. I keep thinking back on everything we've been through — the tiny, silly moments that meant nothing to anyone but us, and the hard ones that could've broken us but didn't. I hold onto all of it. You've carried me more than you probably realize. You turned regular, forgettable days into ones I actually remember.</p>
-                <p>So today, I'm not just wishing you a happy birthday. I want your life to be full — full of everything you deserve and everything you've quietly hoped for. And if I'm being honest, I want something for myself too: I want to be there for every birthday after this one. For every trip, every stupid argument, every laugh until it hurts, every memory we haven't made yet.</p>
-                <p>Don't stop smiling. Don't stop being exactly who you are, because it's the reason my life looks like this now.</p>
+                <p>This year gave me its share of losses and its share of wins, but honestly, none of it mattered as
+                  much as having you next to me through all of it. I keep thinking back on everything we've been through
+                  — the tiny, silly moments that meant nothing to anyone but us, and the hard ones that could've broken
+                  us but didn't. I hold onto all of it. You've carried me more than you probably realize. You turned
+                  regular, forgettable days into ones I actually remember.</p>
+                <p>So today, I'm not just wishing you a happy birthday. I want your life to be full — full of everything
+                  you deserve and everything you've quietly hoped for. And if I'm being honest, I want something for
+                  myself too: I want to be there for every birthday after this one. For every trip, every stupid
+                  argument, every laugh until it hurts, every memory we haven't made yet.</p>
+                <p>Don't stop smiling. Don't stop being exactly who you are, because it's the reason my life looks like
+                  this now.</p>
               </div>
               <div class="letter-closing">
                 <p class="closing-phrase">Happy Birthday, my love. My Soutrika. ❤️♾️</p>
@@ -100,7 +153,8 @@
         <!-- Quote 1 -->
         <div class="quote-card">
           <div class="quote-mark">"</div>
-          <p class="quote-text">Some people arrive in your life and you know from that first moment that they were meant to be there.</p>
+          <p class="quote-text">Some people arrive in your life and you know from that first moment that they were meant
+            to be there.</p>
         </div>
 
         <!-- Photo 4 -->
@@ -136,7 +190,8 @@
         <!-- Quote 2 -->
         <div class="quote-card">
           <div class="quote-mark">"</div>
-          <p class="quote-text">Every second with you is a memory I hold closer than the last — and every day proves me right.</p>
+          <p class="quote-text">Every second with you is a memory I hold closer than the last — and every day proves me
+            right.</p>
         </div>
 
         <!-- Photo 9 — Flowers background -->
@@ -231,7 +286,8 @@
 
         <!-- Photo 24 — Her solo (blue, dark door) -->
         <div class="polaroid" style="--rotate:1deg">
-          <img src="img/480627f2-d90f-401a-a069-3ac2cced9822-1_all_22227.webp" decoding="async" alt="Blue elegance" loading="lazy" />
+          <img src="img/480627f2-d90f-401a-a069-3ac2cced9822-1_all_22227.webp" decoding="async" alt="Blue elegance"
+            loading="lazy" />
           <span class="caption">The one I can't stop staring at</span>
         </div>
 
@@ -252,14 +308,16 @@
       <p class="dodge-hint" id="dodge-hint"></p>
     </div>
 
-        <!-- Dinner Ticket (hidden until "Yes") -->
+    <!-- Dinner Ticket (hidden until "Yes") -->
     <div class="dinner-ticket" id="dinner-ticket">
       <div class="boarding-pass">
 
         <!-- Airline header -->
         <div class="pass-header">
           <div class="airline-brand">
-            <span class="airline-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z"/></svg></span>
+            <span class="airline-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z" />
+              </svg></span>
             <span class="airline-name">LOVE AIRLINES</span>
           </div>
           <span class="pass-title">BOARDING PASS</span>
@@ -269,11 +327,14 @@
         <!-- Route: CCU ✈ FVR -->
         <div class="route">
           <div class="route-city">
-            <span class="route-code">CCU</span>
-            <span class="route-name">Calcutta</span>
+            <span class="route-code">CLRM</span>
+            <span class="route-name">Classroom</span>
           </div>
           <div class="route-path">
-            <svg viewBox="0 0 60 22" class="route-plane" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-dasharray="2,2" stroke-width="1.2" d="M2 13 H 56"/><path fill="currentColor" d="M50 13 l10 4.5 v-9 z"/></svg>
+            <svg viewBox="0 0 60 22" class="route-plane" aria-hidden="true">
+              <path fill="none" stroke="currentColor" stroke-dasharray="2,2" stroke-width="1.2" d="M2 13 H 56" />
+              <path fill="currentColor" d="M50 13 l10 4.5 v-9 z" />
+            </svg>
           </div>
           <div class="route-city">
             <span class="route-code">FVR</span>
@@ -301,36 +362,37 @@
         <div class="pass-divider"></div>
 
         <!-- Stub: barcode -->
-        <a href="https://music.youtube.com/watch?v=WKv07mnKVEE&si=noKQt1uNAxHysRFr" target="_blank" rel="noopener noreferrer" class="pass-stub" style="text-decoration: none;" title="Play our song">
+        <a href="https://music.youtube.com/watch?v=WKv07mnKVEE&si=noKQt1uNAxHysRFr" target="_blank"
+          rel="noopener noreferrer" class="pass-stub" style="text-decoration: none;" title="Play our song">
           <svg viewBox="0 0 120 40" class="barcode-svg" aria-hidden="true">
-            <rect x="5" y="0" width="2" height="30" fill="currentColor"/>
-            <rect x="9" y="0" width="1" height="30" fill="currentColor"/>
-            <rect x="12" y="0" width="3" height="30" fill="currentColor"/>
-            <rect x="17" y="0" width="1" height="30" fill="currentColor"/>
-            <rect x="20" y="0" width="2" height="30" fill="currentColor"/>
-            <rect x="24" y="0" width="4" height="30" fill="currentColor"/>
-            <rect x="30" y="0" width="1" height="30" fill="currentColor"/>
-            <rect x="33" y="0" width="2" height="30" fill="currentColor"/>
-            <rect x="37" y="0" width="1" height="30" fill="currentColor"/>
-            <rect x="40" y="0" width="3" height="30" fill="currentColor"/>
-            <rect x="45" y="0" width="2" height="30" fill="currentColor"/>
-            <rect x="49" y="0" width="1" height="30" fill="currentColor"/>
-            <rect x="52" y="0" width="4" height="30" fill="currentColor"/>
-            <rect x="58" y="0" width="1" height="30" fill="currentColor"/>
-            <rect x="61" y="0" width="2" height="30" fill="currentColor"/>
-            <rect x="65" y="0" width="3" height="30" fill="currentColor"/>
-            <rect x="70" y="0" width="1" height="30" fill="currentColor"/>
-            <rect x="73" y="0" width="2" height="30" fill="currentColor"/>
-            <rect x="77" y="0" width="4" height="30" fill="currentColor"/>
-            <rect x="83" y="0" width="1" height="30" fill="currentColor"/>
-            <rect x="86" y="0" width="2" height="30" fill="currentColor"/>
-            <rect x="90" y="0" width="1" height="30" fill="currentColor"/>
-            <rect x="93" y="0" width="3" height="30" fill="currentColor"/>
-            <rect x="98" y="0" width="2" height="30" fill="currentColor"/>
-            <rect x="102" y="0" width="1" height="30" fill="currentColor"/>
-            <rect x="105" y="0" width="4" height="30" fill="currentColor"/>
-            <rect x="111" y="0" width="2" height="30" fill="currentColor"/>
-            <rect x="115" y="0" width="1" height="30" fill="currentColor"/>
+            <rect x="5" y="0" width="2" height="30" fill="currentColor" />
+            <rect x="9" y="0" width="1" height="30" fill="currentColor" />
+            <rect x="12" y="0" width="3" height="30" fill="currentColor" />
+            <rect x="17" y="0" width="1" height="30" fill="currentColor" />
+            <rect x="20" y="0" width="2" height="30" fill="currentColor" />
+            <rect x="24" y="0" width="4" height="30" fill="currentColor" />
+            <rect x="30" y="0" width="1" height="30" fill="currentColor" />
+            <rect x="33" y="0" width="2" height="30" fill="currentColor" />
+            <rect x="37" y="0" width="1" height="30" fill="currentColor" />
+            <rect x="40" y="0" width="3" height="30" fill="currentColor" />
+            <rect x="45" y="0" width="2" height="30" fill="currentColor" />
+            <rect x="49" y="0" width="1" height="30" fill="currentColor" />
+            <rect x="52" y="0" width="4" height="30" fill="currentColor" />
+            <rect x="58" y="0" width="1" height="30" fill="currentColor" />
+            <rect x="61" y="0" width="2" height="30" fill="currentColor" />
+            <rect x="65" y="0" width="3" height="30" fill="currentColor" />
+            <rect x="70" y="0" width="1" height="30" fill="currentColor" />
+            <rect x="73" y="0" width="2" height="30" fill="currentColor" />
+            <rect x="77" y="0" width="4" height="30" fill="currentColor" />
+            <rect x="83" y="0" width="1" height="30" fill="currentColor" />
+            <rect x="86" y="0" width="2" height="30" fill="currentColor" />
+            <rect x="90" y="0" width="1" height="30" fill="currentColor" />
+            <rect x="93" y="0" width="3" height="30" fill="currentColor" />
+            <rect x="98" y="0" width="2" height="30" fill="currentColor" />
+            <rect x="102" y="0" width="1" height="30" fill="currentColor" />
+            <rect x="105" y="0" width="4" height="30" fill="currentColor" />
+            <rect x="111" y="0" width="2" height="30" fill="currentColor" />
+            <rect x="115" y="0" width="1" height="30" fill="currentColor" />
           </svg>
           <div class="barcode-text">LOVE2026 · SOUTRIKA · ETKT 001</div>
         </a>
@@ -343,7 +405,7 @@
   <!-- ═══════ FOOTER ═══════ -->
   <footer class="site-footer">
     <div class="footer-content">
-      <p class="footer-signoff">Always & Forever, Soutrika ♥ ♾️</p>
+      <p class="footer-signoff">Always & Forever, Soutrika ♥ </p>
       <p class="footer-credit">Made with <span class="heart">♥</span> by Krishnendu</p>
       <a href="#hero" class="back-to-top" aria-label="Read it again">Read it again ↑</a>
     </div>
@@ -354,4 +416,5 @@
 
   <script src="script.js"></script>
 </body>
+
 </html>
