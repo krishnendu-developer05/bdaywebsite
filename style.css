@@ -1189,3 +1189,54 @@ body {
 
 #our-story { contain-intrinsic-size: auto 1800px; }
 .site-footer { contain-intrinsic-size: auto 260px; }
+
+/* -- Music Toggle Button -- */
+#music-toggle {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 10000;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(217, 183, 118, 0.35);
+  background: rgba(61, 10, 20, 0.88);
+  color: var(--gold);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  transition: background 0.3s, transform 0.2s, opacity 0.3s;
+  opacity: 0;
+  pointer-events: none;
+}
+#music-toggle.ready {
+  opacity: 1;
+  pointer-events: auto;
+}
+#music-toggle:hover {
+  background: rgba(74, 15, 28, 0.95);
+  transform: scale(1.1);
+}
+#music-toggle .music-icon {
+  display: inline-block;
+  transition: opacity 0.25s;
+}
+#music-toggle.playing::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid rgba(217, 183, 118, 0.5);
+  animation: music-pulse 1.8s ease-in-out infinite;
+}
+@keyframes music-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50%       { transform: scale(1.18); opacity: 0; }
+}
+#music-toggle.muted .music-icon {
+  opacity: 0.4;
+}
+

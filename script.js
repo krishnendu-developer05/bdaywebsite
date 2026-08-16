@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!prefersReducedMotion) {
       setTimeout(createPetals, 800);
     }
+    // Start background music on user interaction
+    startMusic();
   });
 
   // Scatter a burst of hearts from the greeting heart on tap
@@ -395,5 +397,53 @@ document.addEventListener('DOMContentLoaded', () => {
     // Clean up after animation
     setTimeout(() => { container.innerHTML = ''; }, 5000);
   }
+
+  /* ───── Music Player (0:42 → 1:45 loop) ───── */
+  const music    = document.getElementById('bg-music');
+  const musicBtn = document.getElementById('music-toggle');
+  const MUSIC_START = 42;   // seconds
+  const MUSIC_END   = 105;  // seconds (1:45)
+
+  // Show the button immediately
+  musicBtn.classList.add('ready');
+
+  // Loop: when we reach the end timestamp, jump back
+  music.addEventListener('timeupdate', () => {
+    if (music.currentTime >= MUSIC_END) {
+      music.currentTime = MUSIC_START;
+    }
+  });
+
+  function startMusic() {
+    music.currentTime = MUSIC_START;
+    music.volume = 0.7;
+    music.play()
+      .then(() => {
+        musicBtn.classList.add('playing');
+        musicBtn.classList.remove('muted');
+        musicBtn.querySelector('.music-icon').textContent = '♪';
+      })
+      .catch(() => {
+        // Autoplay blocked — button is visible, user can tap to start
+      });
+  }
+
+  // Toggle play/pause on button click
+  musicBtn.addEventListener('click', () => {
+    if (music.paused) {
+      const t = music.currentTime;
+      music.currentTime = (t < MUSIC_START || t >= MUSIC_END) ? MUSIC_START : t;
+      music.play().then(() => {
+        musicBtn.classList.add('playing');
+        musicBtn.classList.remove('muted');
+        musicBtn.querySelector('.music-icon').textContent = '♪';
+      }).catch(() => {});
+    } else {
+      music.pause();
+      musicBtn.classList.remove('playing');
+      musicBtn.classList.add('muted');
+      musicBtn.querySelector('.music-icon').textContent = '🔇';
+    }
+  });
 
 });
