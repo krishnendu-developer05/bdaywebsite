@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Auto-scroll logic. Keep the photo glide on, while still respecting reduced
   // motion/data-saver and pausing during direct user interaction.
   let scrollPos = track.scrollLeft;
-  let autoScrollSpeed = 0.03; // px per ms, roughly the old gentle desktop pace
+  let autoScrollSpeed = 0.04; // px per ms, a slightly quicker photo glide
   let autoScrollReq = null;
   let isHoveringGallery = false;
   let isGalleryVisible = false;
